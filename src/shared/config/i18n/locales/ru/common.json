@@ -1,0 +1,12 @@
+{
+  "appTitle": "CV",
+  "home": {
+    "heading": "Добро пожаловать",
+    "subtitle": "Стартер React + Vite + FSD",
+    "demoForm": {
+      "nameLabel": "Отображаемое имя",
+      "submit": "Сохранить",
+      "saved": "Сохранено локально (только демо)"
+    }
+  }
+}
