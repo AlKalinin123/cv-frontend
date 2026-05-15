@@ -1,0 +1,12 @@
+{
+  "appTitle": "CV",
+  "home": {
+    "heading": "Welcome",
+    "subtitle": "React + Vite + FSD starter",
+    "demoForm": {
+      "nameLabel": "Display name",
+      "submit": "Save",
+      "saved": "Saved locally (demo only)"
+    }
+  }
+}
