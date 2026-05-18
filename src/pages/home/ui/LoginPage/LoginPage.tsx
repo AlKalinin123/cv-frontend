@@ -1,8 +1,22 @@
 import { AuthForm } from '@/widgets/AuthForm'
 import { CustomTabs } from '@/widgets/CustomTabs'
 import { Box, Container } from '@mui/system'
+import { useLazyLoginQuery } from '@/shared/api/graphql/generated'
+import type { AuthInput } from '@/shared/api/graphql/generated'
 
 export function LoginPage() {
+  const [login] = useLazyLoginQuery()
+  const handleLogin = async (authData: AuthInput) => {
+    try {
+      const result = await login({ auth: authData }).unwrap()
+      console.log(result)
+      // result.data.login.access_token
+    } catch (err) {
+      console.error(err)
+      // handle error
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -29,9 +43,7 @@ export function LoginPage() {
             text="Hello again! Sign in to continue"
             primaryBtnText="Log in"
             secondaryBtnText="Forgot password"
-            onSubmit={() => {
-              // TODO: Implement login logic
-            }}
+            onSubmit={handleLogin}
           />
         </Container>
       </Box>

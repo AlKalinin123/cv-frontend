@@ -6,9 +6,11 @@ interface BaseInputProps {
   id?: string
   label?: string
   defaultValue?: string
+  value?: string
   variant?: 'standard' | 'outlined' | 'filled'
   type?: 'text' | 'email' | 'password'
   endAdornment?: React.ReactNode
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const BaseInput = ({
@@ -17,9 +19,11 @@ export const BaseInput = ({
   id,
   label,
   defaultValue,
+  value,
   variant,
   type,
   endAdornment,
+  onChange,
 }: BaseInputProps) => {
   return (
     <TextField
@@ -27,6 +31,7 @@ export const BaseInput = ({
       id={id}
       label={label}
       defaultValue={defaultValue}
+      value={value}
       variant={variant}
       type={type}
       slotProps={{
@@ -35,6 +40,7 @@ export const BaseInput = ({
           endAdornment,
         },
       }}
+      onChange={onChange}
     />
   )
 }

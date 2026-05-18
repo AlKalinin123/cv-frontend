@@ -9,13 +9,14 @@ import {
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { BaseButton, BaseInput } from '@/shared/ui'
+import type { AuthInput } from '@/shared/api/graphql/generated'
 
 interface AuthFormProps {
   title: string
   text: string
   primaryBtnText: string
   secondaryBtnText: string
-  onSubmit: () => void
+  onSubmit: (authData: AuthInput) => void
 }
 
 export function AuthForm({
@@ -25,6 +26,8 @@ export function AuthForm({
   secondaryBtnText,
   onSubmit,
 }: AuthFormProps) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -67,13 +70,21 @@ export function AuthForm({
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <FormControl>
-            <BaseInput label="Email" type="email" required />
+            <BaseInput
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              label="Email"
+              type="email"
+              required
+            />
           </FormControl>
           <FormControl>
             <BaseInput
               label="Password"
               type={showPassword ? 'text' : 'password'}
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -94,7 +105,10 @@ export function AuthForm({
             />
           </FormControl>
         </Box>
-        <BaseButton variant="contained" onClick={onSubmit}>
+        <BaseButton
+          variant="contained"
+          onClick={() => onSubmit({ email, password })}
+        >
           {primaryBtnText}
         </BaseButton>
         <BaseButton variant="outlined" onClick={() => {}}>
