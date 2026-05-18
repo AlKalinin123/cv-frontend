@@ -32,8 +32,6 @@ export const loginUser = async ({
   login,
   dispatch,
 }: LoginUserParams) => {
-  console.log('login', login)
-  console.log('dispatch', dispatch)
   const result = await login({
     auth: authData,
   }).unwrap()
