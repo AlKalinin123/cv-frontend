@@ -1,21 +1,30 @@
+import { useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
 import { Box, Container } from '@mui/system'
 import { AuthForm } from '@/widgets/AuthForm'
 import { CustomTabs } from '@/widgets/CustomTabs'
 import { useSignupMutation } from '@/shared/api/graphql/generated'
 import type { AuthInput } from '@/shared/api/graphql/generated'
+import { signupUser } from '@/features/auth/model/authActions'
 
 export function SignupPage() {
   const [signup] = useSignupMutation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSignup = async (authData: AuthInput) => {
     try {
-      console.log(authData)
-      const result = await signup({ auth: authData }).unwrap()
-      console.log(result)
-      // result.data.signup.access_token
-    } catch (err) {
+      await signupUser({
+        authData,
+        signup,
+        dispatch,
+      })
+
+      navigate('/')
+    } catch (err: unknown) {
       console.error(err)
-      // handle error
+      toast.error((err as Error)?.message || 'Signup failed')
     }
   }
 

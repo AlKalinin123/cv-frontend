@@ -7,6 +7,9 @@ export const api = createApi({
   reducerPath: 'graphqlApi',
   baseQuery: graphqlRequestBaseQuery({
     url: graphqlUrl ?? '',
+    requestHeaders: {
+      credentials: 'include',
+    },
   }),
   endpoints: () => ({}),
 })
