@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
-import { usePingQuery } from '@/shared/api/graphql/generated'
 
 const demoProfileSchema = z.object({
   displayName: z.string().min(1),
@@ -16,13 +15,6 @@ export function HomePage() {
   const { t } = useTranslation('common')
   const [saved, setSaved] = useState(false)
   const shouldSkipPing = !import.meta.env.VITE_GRAPHQL_URL
-  const {
-    data: pingData,
-    isFetching,
-    isError,
-  } = usePingQuery(undefined, {
-    skip: shouldSkipPing,
-  })
 
   const form = useForm<DemoProfileForm>({
     resolver: zodResolver(demoProfileSchema),
@@ -36,16 +28,6 @@ export function HomePage() {
           {t('home.heading')}
         </Typography>
         <Typography color="text.secondary">{t('home.subtitle')}</Typography>
-
-        {!shouldSkipPing && (
-          <Alert severity={isError ? 'error' : 'info'}>
-            {isFetching
-              ? 'Ping…'
-              : isError
-                ? 'Ping failed (check VITE_GRAPHQL_URL and CORS).'
-                : `Ping: ${String(pingData?.ping ?? 'null')}`}
-          </Alert>
-        )}
 
         {shouldSkipPing && (
           <Alert severity="warning">
