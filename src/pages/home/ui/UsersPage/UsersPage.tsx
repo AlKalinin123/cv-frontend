@@ -43,5 +43,7 @@ export const UsersPage = () => {
     position: user.position?.name,
   }))
 
+  console.log(tableData)
+
   return <BaseTable data={tableData || []} headers={headers} />
 }

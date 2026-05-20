@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 type SortableValue = string | number | Date | boolean | null | undefined
 
@@ -97,16 +98,6 @@ function getComparator<Key extends keyof BaseTableData>(
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-function createData(
-  headers: BaseTableHeader[],
-  item: BaseTableData,
-): BaseTableData {
-  return headers.reduce<BaseTableData>((acc, header) => {
-    acc[header.value] = item[header.value]
-    return acc
-  }, {})
-}
-
 function renderCellValue(value: SortableValue): React.ReactNode {
   if (value == null) {
     return '-'
@@ -125,6 +116,7 @@ export const BaseTable = ({
   orderBy: initialOrderBy,
   order: initialOrder,
 }: BaseTableProps) => {
+  const navigate = useNavigate()
   const [order, setOrder] = useState<Order>(initialOrder || 'asc')
   const [orderBy, setOrderBy] = useState<keyof BaseTableData>(
     initialOrderBy || headers[0]?.value,
@@ -132,14 +124,21 @@ export const BaseTable = ({
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const tableData = data.map((item) => createData(headers, item))
+  // const tableData = data.map((item) => createData(headers, item))
 
-  const sortedData = tableData.slice().sort(getComparator(order, orderBy))
+  const sortedData = data.slice().sort(getComparator(order, orderBy))
+
+  console.log(sortedData)
 
   const createSortHandler = (property: keyof BaseTableData) => () => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
+  }
+
+  const handleRowClick = (row: BaseTableData, userId: string) => {
+    console.log(row)
+    navigate(`/users/${userId}/profile`)
   }
 
   return (
@@ -175,40 +174,45 @@ export const BaseTable = ({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow
-                  key={Object.values(row).join('-')}
+                  key={row.id as string}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  onClick={() => handleRowClick(row, row.id as string)}
                 >
-                  {Object.entries(row).map(([key, value]) =>
-                    key === 'avatar' ? (
-                      <TableCell key={key}>
-                        {value ? (
-                          <Avatar alt="Avatar" src={value as string} />
+                  {headers.map((header) => {
+                    const value = row[header.value]
+
+                    return (
+                      <TableCell key={String(header.value)}>
+                        {header.value === 'avatar' ? (
+                          value ? (
+                            <Avatar alt="Avatar" src={value as string} />
+                          ) : (
+                            <Avatar
+                              sx={{
+                                bgcolor:
+                                  avatarColors[
+                                    Math.floor(
+                                      Math.random() * avatarColors.length,
+                                    )
+                                  ],
+                              }}
+                            >
+                              {(row.email as string)?.[0].toUpperCase() || '?'}
+                            </Avatar>
+                          )
                         ) : (
-                          <Avatar
-                            sx={{
-                              bgcolor:
-                                avatarColors[
-                                  Math.floor(
-                                    Math.random() * avatarColors.length,
-                                  )
-                                ],
-                            }}
-                          >
-                            {(row.email as string)?.[0].toUpperCase() || '?'}
-                          </Avatar>
+                          renderCellValue(value)
                         )}
                       </TableCell>
-                    ) : (
-                      <TableCell key={key}>{renderCellValue(value)}</TableCell>
-                    ),
-                  )}
+                    )
+                  })}
                 </TableRow>
               ))}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={headers.length}>
-                Total: {tableData.length}
+                Total: {sortedData.length}
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -217,7 +221,7 @@ export const BaseTable = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={tableData.length}
+        count={sortedData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={(_, newPage) => setPage(newPage)}
