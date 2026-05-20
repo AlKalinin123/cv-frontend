@@ -1,0 +1,12 @@
+query GetPositions {
+  positions {
+    id
+    name
+  }
+}
+
+mutation CreatePosition($input: CreatePositionInput!) {
+  createPosition(position: $input) {
+    name
+  }
+}
