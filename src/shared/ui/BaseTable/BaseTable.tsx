@@ -98,15 +98,25 @@ function getComparator<Key extends keyof BaseTableData>(
 }
 
 function createData(
-  headers: { value: string; label: string }[],
+  headers: BaseTableHeader[],
   item: BaseTableData,
-) {
-  return headers.reduce((acc, header) => {
-    return {
-      ...acc,
-      [header.value]: item[header.value],
-    }
+): BaseTableData {
+  return headers.reduce<BaseTableData>((acc, header) => {
+    acc[header.value] = item[header.value]
+    return acc
   }, {})
+}
+
+function renderCellValue(value: SortableValue): React.ReactNode {
+  if (value == null) {
+    return '-'
+  }
+
+  if (value instanceof Date) {
+    return value.toLocaleDateString()
+  }
+
+  return String(value)
 }
 
 export const BaseTable = ({
@@ -189,7 +199,7 @@ export const BaseTable = ({
                         )}
                       </TableCell>
                     ) : (
-                      <TableCell key={key}>{value ?? '-'}</TableCell>
+                      <TableCell key={key}>{renderCellValue(value)}</TableCell>
                     ),
                   )}
                 </TableRow>
