@@ -703,6 +703,38 @@ export type VerifyMailInput = {
   otp: Scalars['String']['input']
 }
 
+export type GetCvsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetCvsQuery = { cvs: Array<{ id: string; name: string }> }
+
+export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetDepartmentsQuery = {
+  departments: Array<{ id: string; name: string }>
+}
+
+export type CreateDepartmentMutationVariables = Exact<{
+  input: CreateDepartmentInput
+}>
+
+export type CreateDepartmentMutation = { createDepartment: { name: string } }
+
+export type UpdateDepartmentMutationVariables = Exact<{
+  input: UpdateDepartmentInput
+}>
+
+export type UpdateDepartmentMutation = {
+  updateDepartment: { id: string; name: string }
+}
+
+export type DeleteDepartmentMutationVariables = Exact<{
+  input: DeleteDepartmentInput
+}>
+
+export type DeleteDepartmentMutation = {
+  deleteDepartment: { affected: number }
+}
+
 export type LoginQueryVariables = Exact<{
   auth: AuthInput
 }>
@@ -714,6 +746,18 @@ export type LoginQuery = {
     user: { id: string; email: string; role: UserRole }
   }
 }
+
+export type GetPositionsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetPositionsQuery = {
+  positions: Array<{ id: string; name: string }>
+}
+
+export type CreatePositionMutationVariables = Exact<{
+  input: CreatePositionInput
+}>
+
+export type CreatePositionMutation = { createPosition: { name: string } }
 
 export type SignupMutationVariables = Exact<{
   auth: AuthInput
@@ -727,6 +771,87 @@ export type SignupMutation = {
   }
 }
 
+export type GetUsersQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetUsersQuery = {
+  users: Array<{
+    id: string
+    created_at: string
+    email: string
+    role: UserRole
+    profile: {
+      avatar: string | null
+      first_name: string | null
+      last_name: string | null
+    }
+    cvs: Array<{ id: string; name: string }> | null
+    department: { id: string; name: string } | null
+    position: { id: string; name: string } | null
+  }>
+}
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput
+}>
+
+export type CreateUserMutation = {
+  createUser: {
+    email: string
+    role: UserRole
+    profile: { first_name: string | null; last_name: string | null }
+  }
+}
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput
+}>
+
+export type UpdateUserMutation = { updateUser: { id: string } }
+
+export type DeleteUserMutationVariables = Exact<{
+  input: string | number
+}>
+
+export type DeleteUserMutation = { deleteUser: { affected: number } }
+
+export const GetCvsDocument = `
+    query GetCvs {
+  cvs {
+    id
+    name
+  }
+}
+    `
+export const GetDepartmentsDocument = `
+    query GetDepartments {
+  departments {
+    id
+    name
+  }
+}
+    `
+export const CreateDepartmentDocument = `
+    mutation CreateDepartment($input: CreateDepartmentInput!) {
+  createDepartment(department: $input) {
+    name
+  }
+}
+    `
+export const UpdateDepartmentDocument = `
+    mutation UpdateDepartment($input: UpdateDepartmentInput!) {
+  updateDepartment(department: $input) {
+    id
+    name
+  }
+}
+    `
+export const DeleteDepartmentDocument = `
+    mutation DeleteDepartment($input: DeleteDepartmentInput!) {
+  deleteDepartment(department: $input) {
+    affected
+  }
+}
+    `
 export const LoginDocument = `
     query Login($auth: AuthInput!) {
   login(auth: $auth) {
@@ -737,6 +862,21 @@ export const LoginDocument = `
       email
       role
     }
+  }
+}
+    `
+export const GetPositionsDocument = `
+    query GetPositions {
+  positions {
+    id
+    name
+  }
+}
+    `
+export const CreatePositionDocument = `
+    mutation CreatePosition($input: CreatePositionInput!) {
+  createPosition(position: $input) {
+    name
   }
 }
     `
@@ -753,19 +893,147 @@ export const SignupDocument = `
   }
 }
     `
+export const GetUsersDocument = `
+    query GetUsers {
+  users {
+    id
+    created_at
+    email
+    role
+    profile {
+      avatar
+      first_name
+      last_name
+    }
+    cvs {
+      id
+      name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+  }
+}
+    `
+export const CreateUserDocument = `
+    mutation CreateUser($input: CreateUserInput!) {
+  createUser(user: $input) {
+    profile {
+      first_name
+      last_name
+    }
+    email
+    role
+  }
+}
+    `
+export const UpdateUserDocument = `
+    mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(user: $input) {
+    id
+  }
+}
+    `
+export const DeleteUserDocument = `
+    mutation DeleteUser($input: ID!) {
+  deleteUser(userId: $input) {
+    affected
+  }
+}
+    `
 
 const injectedRtkApi = api.injectEndpoints({
   overrideExisting: import.meta.hot != null,
   endpoints: (build) => ({
+    GetCvs: build.query<GetCvsQuery, GetCvsQueryVariables | void>({
+      query: (variables) => ({ document: GetCvsDocument, variables }),
+    }),
+    GetDepartments: build.query<
+      GetDepartmentsQuery,
+      GetDepartmentsQueryVariables | void
+    >({
+      query: (variables) => ({ document: GetDepartmentsDocument, variables }),
+    }),
+    CreateDepartment: build.mutation<
+      CreateDepartmentMutation,
+      CreateDepartmentMutationVariables
+    >({
+      query: (variables) => ({ document: CreateDepartmentDocument, variables }),
+    }),
+    UpdateDepartment: build.mutation<
+      UpdateDepartmentMutation,
+      UpdateDepartmentMutationVariables
+    >({
+      query: (variables) => ({ document: UpdateDepartmentDocument, variables }),
+    }),
+    DeleteDepartment: build.mutation<
+      DeleteDepartmentMutation,
+      DeleteDepartmentMutationVariables
+    >({
+      query: (variables) => ({ document: DeleteDepartmentDocument, variables }),
+    }),
     Login: build.query<LoginQuery, LoginQueryVariables>({
       query: (variables) => ({ document: LoginDocument, variables }),
+    }),
+    GetPositions: build.query<
+      GetPositionsQuery,
+      GetPositionsQueryVariables | void
+    >({
+      query: (variables) => ({ document: GetPositionsDocument, variables }),
+    }),
+    CreatePosition: build.mutation<
+      CreatePositionMutation,
+      CreatePositionMutationVariables
+    >({
+      query: (variables) => ({ document: CreatePositionDocument, variables }),
     }),
     Signup: build.mutation<SignupMutation, SignupMutationVariables>({
       query: (variables) => ({ document: SignupDocument, variables }),
     }),
+    GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
+      query: (variables) => ({ document: GetUsersDocument, variables }),
+    }),
+    CreateUser: build.mutation<CreateUserMutation, CreateUserMutationVariables>(
+      {
+        query: (variables) => ({ document: CreateUserDocument, variables }),
+      },
+    ),
+    UpdateUser: build.mutation<UpdateUserMutation, UpdateUserMutationVariables>(
+      {
+        query: (variables) => ({ document: UpdateUserDocument, variables }),
+      },
+    ),
+    DeleteUser: build.mutation<DeleteUserMutation, DeleteUserMutationVariables>(
+      {
+        query: (variables) => ({ document: DeleteUserDocument, variables }),
+      },
+    ),
   }),
 })
 
 export { injectedRtkApi as api }
-export const { useLoginQuery, useLazyLoginQuery, useSignupMutation } =
-  injectedRtkApi
+export const {
+  useGetCvsQuery,
+  useLazyGetCvsQuery,
+  useGetDepartmentsQuery,
+  useLazyGetDepartmentsQuery,
+  useCreateDepartmentMutation,
+  useUpdateDepartmentMutation,
+  useDeleteDepartmentMutation,
+  useLoginQuery,
+  useLazyLoginQuery,
+  useGetPositionsQuery,
+  useLazyGetPositionsQuery,
+  useCreatePositionMutation,
+  useSignupMutation,
+  useGetUsersQuery,
+  useLazyGetUsersQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = injectedRtkApi

@@ -1,0 +1,6 @@
+query GetCvs {
+  cvs {
+    id
+    name
+  }
+}
