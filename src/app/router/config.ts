@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, type UIMatch } from 'react-router'
 import {
   HomePage,
   LoginPage,
@@ -9,6 +9,8 @@ import {
 import { AuthGuard } from '@/widgets/AuthGuard'
 import { MainLayout } from '../layouts/main-layout'
 import { AuthLayout } from '../layouts/auth-layout'
+import { userLoader } from './loaders/user.loader'
+import type { User } from '@/shared/api/graphql/generated'
 
 export const router = createBrowserRouter([
   {
@@ -36,11 +38,31 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '/users',
-            Component: UsersPage,
-          },
-          {
-            path: '/users/:userId/profile',
-            Component: UserProfilePage,
+            handle: {
+              breadcrumb: 'Users',
+            },
+            children: [
+              {
+                index: true,
+                Component: UsersPage,
+              },
+              {
+                path: ':userId',
+                children: [
+                  {
+                    path: 'profile',
+                    Component: UserProfilePage,
+                    loader: userLoader,
+                    handle: {
+                      breadcrumb: (match: UIMatch<User>) => {
+                        const user = match.data
+                        return user ? user.email : 'User'
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

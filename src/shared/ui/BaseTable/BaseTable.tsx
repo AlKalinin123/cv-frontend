@@ -124,11 +124,7 @@ export const BaseTable = ({
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  // const tableData = data.map((item) => createData(headers, item))
-
   const sortedData = data.slice().sort(getComparator(order, orderBy))
-
-  console.log(sortedData)
 
   const createSortHandler = (property: keyof BaseTableData) => () => {
     const isAsc = orderBy === property && order === 'asc'
@@ -136,8 +132,7 @@ export const BaseTable = ({
     setOrderBy(property)
   }
 
-  const handleRowClick = (row: BaseTableData, userId: string) => {
-    console.log(row)
+  const handleRowClick = (userId: string) => {
     navigate(`/users/${userId}/profile`)
   }
 
@@ -176,7 +171,7 @@ export const BaseTable = ({
                 <TableRow
                   key={row.id as string}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  onClick={() => handleRowClick(row, row.id as string)}
+                  onClick={() => handleRowClick(row.id as string)}
                 >
                   {headers.map((header) => {
                     const value = row[header.value]

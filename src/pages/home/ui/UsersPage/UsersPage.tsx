@@ -1,5 +1,8 @@
 import { BaseTable } from '@/shared/ui'
 import { useGetUsersQuery } from '@/shared/api/graphql/generated'
+import { useDispatch } from 'react-redux'
+import { setUsers } from '@/entities/user/model/userSlice'
+import { useEffect, useMemo } from 'react'
 
 const headers = [
   {
@@ -30,8 +33,13 @@ const headers = [
 
 export const UsersPage = () => {
   const { data } = useGetUsersQuery()
+  const dispatch = useDispatch()
 
-  const users = data?.users || []
+  const users = useMemo(() => data?.users || [], [data])
+
+  useEffect(() => {
+    dispatch(setUsers(users))
+  }, [users, dispatch])
 
   const tableData = users.map((user) => ({
     avatar: user.profile?.avatar,
@@ -42,8 +50,6 @@ export const UsersPage = () => {
     department: user.department?.name,
     position: user.position?.name,
   }))
-
-  console.log(tableData)
 
   return <BaseTable data={tableData || []} headers={headers} />
 }
