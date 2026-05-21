@@ -1,6 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { User } from '@/shared/api/graphql/generated'
 
-const initialState = {
+type UserState = {
+  users: User[]
+}
+
+const initialState: UserState = {
   users: [],
 }
 
@@ -8,7 +13,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUsers: (state, action) => {
+    setUsers: (state, action: PayloadAction<User[]>) => {
       state.users = action.payload
     },
   },

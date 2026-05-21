@@ -3,6 +3,7 @@ import { useGetUsersQuery } from '@/shared/api/graphql/generated'
 import { useDispatch } from 'react-redux'
 import { setUsers } from '@/entities/user/model/userSlice'
 import { useEffect, useMemo } from 'react'
+import type { User } from '@/shared/api/graphql/generated'
 
 const headers = [
   {
@@ -38,7 +39,8 @@ export const UsersPage = () => {
   const users = useMemo(() => data?.users || [], [data])
 
   useEffect(() => {
-    dispatch(setUsers(users))
+    // TODO: fix the type casting
+    dispatch(setUsers(users as User[]))
   }, [users, dispatch])
 
   const tableData = users.map((user) => ({

@@ -3,5 +3,7 @@ import type { User } from '@/shared/api/graphql/generated'
 
 export const selectUsers = (state: RootState) => state.user.users
 
-export const selectUserById = (id: string) => (state: RootState) =>
-  state.user.users.find((user: User) => user.id === id)
+export const selectUserById =
+  (id: string) =>
+  (state: RootState): User | undefined =>
+    state.user.users.find((user) => user.id === id)

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router'
 import { Box, Container } from '@mui/material'
-import { CustomTabs } from '@/widgets/CustomTabs'
+import { Tabs } from '@/widgets/Tabs'
 
 export const AuthLayout = () => {
   return (
@@ -13,7 +13,7 @@ export const AuthLayout = () => {
       }}
     >
       <Box>
-        <CustomTabs />
+        <Tabs />
       </Box>
       <Box
         sx={{
