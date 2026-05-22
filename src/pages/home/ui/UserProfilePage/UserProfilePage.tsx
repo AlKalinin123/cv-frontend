@@ -14,24 +14,13 @@ export const UserProfilePage = () => {
     <Box>
       <Breadcrumbs />
       {user !== null && (
-        <Box>
-          <Box>
-            <ProfileForm />
-          </Box>
-          <Box>
-            {user?.profile.first_name && user?.profile.last_name && (
-              <Typography variant="h6">
-                {user?.profile.first_name} {user?.profile.last_name}
-              </Typography>
-            )}
-            <Typography variant="h6">{user?.email}</Typography>
-            <p>
-              A member since{' '}
-              {user?.created_at
-                ? new Date(Number(user.created_at)).toDateString()
-                : ''}
-            </p>
-          </Box>
+        <Box sx={{ mt: 4 }}>
+          <ProfileForm user={user} />
+        </Box>
+      )}
+      {!user && (
+        <Box sx={{ mt: 4 }}>
+          <Typography>User data not found</Typography>
         </Box>
       )}
     </Box>

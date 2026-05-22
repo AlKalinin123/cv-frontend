@@ -1,31 +1,42 @@
 import { Avatar, ButtonBase, Box, Typography } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
-import React from 'react'
+import { useMemo, useEffect, type ChangeEvent } from 'react'
 
-export function AvatarUpload() {
-  const [avatarSrc, setAvatarSrc] = React.useState<string | undefined>(
-    undefined,
-  )
+interface AvatarUploadProps {
+  value?: File | null
+  onChange?: (file: File | null) => void
+  error?: boolean
+  helperText?: string
+}
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export function AvatarUpload({
+  value,
+  onChange,
+  error,
+  helperText,
+}: AvatarUploadProps) {
+  const preview = useMemo(() => {
+    if (!value) return undefined
+    return URL.createObjectURL(value)
+  }, [value])
+
+  useEffect(() => {
+    if (!preview) return
+    return () => URL.revokeObjectURL(preview)
+  }, [preview])
+
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (file) {
-      // Read the file as a data URL
-      const reader = new FileReader()
-      reader.onload = () => {
-        setAvatarSrc(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
+
+    if (!file) return
+
+    onChange?.(file)
   }
 
   return (
-    <Box sx={{ p: 2, display: 'flex' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <ButtonBase
         component="label"
-        role={undefined}
-        tabIndex={-1}
-        aria-label="Avatar image"
         sx={{
           borderRadius: '40px',
           '&:has(:focus-visible)': {
@@ -34,21 +45,16 @@ export function AvatarUpload() {
           },
         }}
       >
-        <Avatar alt="Upload new avatar" src={avatarSrc} />
+        <Avatar
+          alt="Upload avatar"
+          src={preview}
+          sx={{ width: 96, height: 96 }}
+        />
+
         <input
+          hidden
           type="file"
           accept="image/*"
-          style={{
-            border: 0,
-            clip: 'rect(0 0 0 0)',
-            height: '1px',
-            margin: '-1px',
-            overflow: 'hidden',
-            padding: 0,
-            position: 'absolute',
-            whiteSpace: 'nowrap',
-            width: '1px',
-          }}
           onChange={handleAvatarChange}
         />
       </ButtonBase>
@@ -61,6 +67,14 @@ export function AvatarUpload() {
           png, jpg or gif no more than 0.5MB
         </Typography>
       </Box>
+      {helperText && (
+        <Typography
+          variant="caption"
+          color={error ? 'error' : 'text.secondary'}
+        >
+          {helperText}
+        </Typography>
+      )}
     </Box>
   )
 }
