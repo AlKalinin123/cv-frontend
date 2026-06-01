@@ -1,4 +1,5 @@
 export { BaseButton } from './BaseButton/BaseButton'
 export { BaseInput } from './BaseInput/BaseInput'
+export { BaseModal } from './BaseModal/BaseModal'
 export { BaseSelect } from './BaseSelect/BaseSelect'
 export { BaseTable } from './BaseTable/BaseTable'

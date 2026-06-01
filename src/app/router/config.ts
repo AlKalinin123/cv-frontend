@@ -3,6 +3,7 @@ import {
   HomePage,
   LoginPage,
   SignupPage,
+  SkillsPage,
   UsersPage,
   UserProfilePage,
 } from '@/pages/home'
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
                 ],
               },
             ],
+          },
+          {
+            path: '/skills',
+            Component: SkillsPage,
           },
         ],
       },
