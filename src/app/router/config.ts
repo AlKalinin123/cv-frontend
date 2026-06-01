@@ -1,26 +1,72 @@
-import { createBrowserRouter } from 'react-router'
-import { HomePage, LoginPage, SignupPage, UsersPage } from '@/pages/home'
+import { createBrowserRouter, type UIMatch } from 'react-router'
+import {
+  HomePage,
+  LoginPage,
+  SignupPage,
+  UsersPage,
+  UserProfilePage,
+} from '@/pages/home'
 import { AuthGuard } from '@/widgets/AuthGuard'
+import { MainLayout } from '../layouts/main-layout'
+import { AuthLayout } from '../layouts/auth-layout'
+import { userLoader } from './loaders/user.loader'
+import type { User } from '@/shared/api/graphql/generated'
+import { RootErrorBoundary } from './ui/RootErrorBoundary'
 
 export const router = createBrowserRouter([
   {
     path: '/',
+    ErrorBoundary: RootErrorBoundary,
     Component: HomePage,
   },
   {
-    path: '/auth/login',
-    Component: LoginPage,
-  },
-  {
-    path: '/auth/signup',
-    Component: SignupPage,
+    Component: AuthLayout,
+    children: [
+      {
+        path: '/auth/login',
+        Component: LoginPage,
+      },
+      {
+        path: '/auth/signup',
+        Component: SignupPage,
+      },
+    ],
   },
   {
     Component: AuthGuard,
     children: [
       {
-        path: '/users',
-        Component: UsersPage,
+        Component: MainLayout,
+        children: [
+          {
+            path: '/users',
+            handle: {
+              breadcrumb: 'Users',
+            },
+            children: [
+              {
+                index: true,
+                Component: UsersPage,
+              },
+              {
+                path: ':userId',
+                children: [
+                  {
+                    path: 'profile',
+                    Component: UserProfilePage,
+                    loader: userLoader,
+                    handle: {
+                      breadcrumb: (match: UIMatch<User>) => {
+                        const user = match.data
+                        return user ? user.email : 'User'
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
     ],
   },

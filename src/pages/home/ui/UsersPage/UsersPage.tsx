@@ -1,7 +1,10 @@
 import { BaseTable } from '@/shared/ui'
-import { Grid, Paper } from '@mui/material'
-import { BaseSidebar } from '@/shared/ui'
 import { useGetUsersQuery } from '@/shared/api/graphql/generated'
+import { useDispatch } from 'react-redux'
+import { setUsers } from '@/entities/user/model/userSlice'
+import { useEffect, useMemo } from 'react'
+import type { User } from '@/shared/api/graphql/generated'
+import { Box } from '@mui/material'
 
 const headers = [
   {
@@ -31,9 +34,15 @@ const headers = [
 ]
 
 export const UsersPage = () => {
-  const { data } = useGetUsersQuery()
+  const { data, isLoading, error } = useGetUsersQuery()
+  const dispatch = useDispatch()
 
-  const users = data?.users || []
+  const users = useMemo(() => data?.users || [], [data])
+
+  useEffect(() => {
+    // TODO: fix the type casting
+    dispatch(setUsers(users as User[]))
+  }, [users, dispatch])
 
   const tableData = users.map((user) => ({
     avatar: user.profile?.avatar,
@@ -45,17 +54,37 @@ export const UsersPage = () => {
     position: user.position?.name,
   }))
 
-  return (
-    <Grid container spacing={2}>
-      <Grid size={{ xs: 12, sm: 12, md: 12 }}>
-        <Paper>Users page</Paper>
-      </Grid>
-      <Grid size={{ xs: 12, sm: 4, md: 2 }} sx={{ p: 2 }}>
-        <BaseSidebar />
-      </Grid>
-      <Grid size={{ xs: 12, sm: 8, md: 10 }} sx={{ p: 2 }}>
-        <BaseTable data={tableData || []} headers={headers} />
-      </Grid>
-    </Grid>
-  )
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '290px',
+          width: '100%',
+        }}
+      >
+        <div>Loading...</div>
+      </Box>
+    )
+  }
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '290px',
+          width: '100%',
+        }}
+      >
+        <div>Error: {error.message}</div>
+      </Box>
+    )
+  }
+
+  return <BaseTable data={tableData || []} headers={headers} />
 }

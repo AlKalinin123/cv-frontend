@@ -759,6 +759,19 @@ export type CreatePositionMutationVariables = Exact<{
 
 export type CreatePositionMutation = { createPosition: { name: string } }
 
+export type UpdateProfileMutationVariables = Exact<{
+  profile: UpdateProfileInput
+}>
+
+export type UpdateProfileMutation = {
+  updateProfile: {
+    id: string
+    first_name: string | null
+    last_name: string | null
+    avatar: string | null
+  }
+}
+
 export type SignupMutationVariables = Exact<{
   auth: AuthInput
 }>
@@ -790,6 +803,28 @@ export type GetUsersQuery = {
   }>
 }
 
+export type GetUserByIdQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type GetUserByIdQuery = {
+  user: {
+    id: string
+    created_at: string
+    is_verified: boolean
+    email: string
+    role: UserRole
+    profile: {
+      avatar: string | null
+      first_name: string | null
+      last_name: string | null
+    }
+    cvs: Array<{ id: string; name: string }> | null
+    department: { id: string; name: string } | null
+    position: { id: string; name: string } | null
+  }
+}
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput
 }>
@@ -806,7 +841,15 @@ export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput
 }>
 
-export type UpdateUserMutation = { updateUser: { id: string } }
+export type UpdateUserMutation = {
+  updateUser: {
+    id: string
+    role: UserRole
+    profile: { first_name: string | null; last_name: string | null }
+    department: { id: string; name: string } | null
+    position: { id: string; name: string } | null
+  }
+}
 
 export type DeleteUserMutationVariables = Exact<{
   input: string | number
@@ -880,6 +923,16 @@ export const CreatePositionDocument = `
   }
 }
     `
+export const UpdateProfileDocument = `
+    mutation UpdateProfile($profile: UpdateProfileInput!) {
+  updateProfile(profile: $profile) {
+    id
+    first_name
+    last_name
+    avatar
+  }
+}
+    `
 export const SignupDocument = `
     mutation Signup($auth: AuthInput!) {
   signup(auth: $auth) {
@@ -920,6 +973,34 @@ export const GetUsersDocument = `
   }
 }
     `
+export const GetUserByIdDocument = `
+    query GetUserById($userId: ID!) {
+  user(userId: $userId) {
+    id
+    created_at
+    is_verified
+    email
+    role
+    profile {
+      avatar
+      first_name
+      last_name
+    }
+    cvs {
+      id
+      name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+  }
+}
+    `
 export const CreateUserDocument = `
     mutation CreateUser($input: CreateUserInput!) {
   createUser(user: $input) {
@@ -936,6 +1017,19 @@ export const UpdateUserDocument = `
     mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(user: $input) {
     id
+    profile {
+      first_name
+      last_name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+    role
   }
 }
     `
@@ -992,11 +1086,20 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (variables) => ({ document: CreatePositionDocument, variables }),
     }),
+    UpdateProfile: build.mutation<
+      UpdateProfileMutation,
+      UpdateProfileMutationVariables
+    >({
+      query: (variables) => ({ document: UpdateProfileDocument, variables }),
+    }),
     Signup: build.mutation<SignupMutation, SignupMutationVariables>({
       query: (variables) => ({ document: SignupDocument, variables }),
     }),
     GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
       query: (variables) => ({ document: GetUsersDocument, variables }),
+    }),
+    GetUserById: build.query<GetUserByIdQuery, GetUserByIdQueryVariables>({
+      query: (variables) => ({ document: GetUserByIdDocument, variables }),
     }),
     CreateUser: build.mutation<CreateUserMutation, CreateUserMutationVariables>(
       {
@@ -1030,9 +1133,12 @@ export const {
   useGetPositionsQuery,
   useLazyGetPositionsQuery,
   useCreatePositionMutation,
+  useUpdateProfileMutation,
   useSignupMutation,
   useGetUsersQuery,
   useLazyGetUsersQuery,
+  useGetUserByIdQuery,
+  useLazyGetUserByIdQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,

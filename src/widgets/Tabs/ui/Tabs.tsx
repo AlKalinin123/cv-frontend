@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router'
 import { Box } from '@mui/system'
-import { Tabs, Tab } from '@mui/material'
+import { Tabs as MuiTabs, Tab } from '@mui/material'
 
 function a11yProps(index: number) {
   return {
@@ -9,7 +9,7 @@ function a11yProps(index: number) {
   }
 }
 
-export function CustomTabs() {
+export function Tabs() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -30,7 +30,7 @@ export function CustomTabs() {
 
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-      <Tabs
+      <MuiTabs
         value={value}
         onChange={handleChange}
         aria-label="auth tabs"
@@ -39,7 +39,7 @@ export function CustomTabs() {
       >
         <Tab label="Login" {...a11yProps(0)} />
         <Tab label="Sign up" {...a11yProps(1)} />
-      </Tabs>
+      </MuiTabs>
     </Box>
   )
 }
