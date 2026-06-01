@@ -65,6 +65,19 @@ mutation CreateUser($input: CreateUserInput!) {
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(user: $input) {
     id
+    profile {
+      first_name
+      last_name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+    role
   }
 }
 

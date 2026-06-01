@@ -841,7 +841,15 @@ export type UpdateUserMutationVariables = Exact<{
   input: UpdateUserInput
 }>
 
-export type UpdateUserMutation = { updateUser: { id: string } }
+export type UpdateUserMutation = {
+  updateUser: {
+    id: string
+    role: UserRole
+    profile: { first_name: string | null; last_name: string | null }
+    department: { id: string; name: string } | null
+    position: { id: string; name: string } | null
+  }
+}
 
 export type DeleteUserMutationVariables = Exact<{
   input: string | number
@@ -1009,6 +1017,19 @@ export const UpdateUserDocument = `
     mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(user: $input) {
     id
+    profile {
+      first_name
+      last_name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+    role
   }
 }
     `
