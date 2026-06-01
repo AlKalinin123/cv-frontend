@@ -11,10 +11,12 @@ import { MainLayout } from '../layouts/main-layout'
 import { AuthLayout } from '../layouts/auth-layout'
 import { userLoader } from './loaders/user.loader'
 import type { User } from '@/shared/api/graphql/generated'
+import { RootErrorBoundary } from './ui/RootErrorBoundary'
 
 export const router = createBrowserRouter([
   {
     path: '/',
+    ErrorBoundary: RootErrorBoundary,
     Component: HomePage,
   },
   {
