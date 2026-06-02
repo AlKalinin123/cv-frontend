@@ -19,6 +19,7 @@ interface BaseSelectProps {
   fullWidth?: boolean
   error?: boolean
   helperText?: string
+  displayEmpty?: boolean
   onChange?: (event: SelectChangeEvent) => void
   onBlur?: () => void
 }
@@ -33,6 +34,7 @@ export const BaseSelect = ({
   error,
   helperText,
   variant = 'outlined',
+  displayEmpty = false,
   onChange,
   onBlur,
 }: BaseSelectProps) => {
@@ -40,6 +42,7 @@ export const BaseSelect = ({
     <div>
       <InputLabel id={labelId}>{label}</InputLabel>
       <Select
+        aria-describedby={`${id}-helper-text`}
         labelId={labelId}
         id={id}
         value={value}
@@ -50,10 +53,8 @@ export const BaseSelect = ({
         fullWidth={fullWidth}
         error={error}
         variant={variant}
+        displayEmpty={displayEmpty}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@mui/material'
 import { BaseModal } from '@/shared/ui'
+import { SkillsForm } from '@/widgets/SkillsForm'
 
 export const SkillsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -14,9 +15,9 @@ export const SkillsPage = () => {
       <BaseModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Create skill"
+        title="Add skill"
       >
-        Modal content
+        <SkillsForm />
       </BaseModal>
     </div>
   )
