@@ -20,6 +20,7 @@ interface BaseSelectProps {
   error?: boolean
   helperText?: string
   displayEmpty?: boolean
+  disabled?: boolean
   onChange?: (event: SelectChangeEvent) => void
   onBlur?: () => void
 }
@@ -35,6 +36,7 @@ export const BaseSelect = ({
   helperText,
   variant = 'outlined',
   displayEmpty = false,
+  disabled = false,
   onChange,
   onBlur,
 }: BaseSelectProps) => {
@@ -54,6 +56,7 @@ export const BaseSelect = ({
         error={error}
         variant={variant}
         displayEmpty={displayEmpty}
+        disabled={disabled}
       >
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>

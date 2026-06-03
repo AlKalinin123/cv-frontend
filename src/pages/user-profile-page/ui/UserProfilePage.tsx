@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import { Breadcrumbs } from '@/widgets/Breadcrumbs'
-import { ProfileSettingsTabs } from '@/widgets/ProfileSettingsTabs'
+import { Breadcrumbs } from '@/widgets/breadcrumbs'
+import { ProfileSettingsTabs } from '@/widgets/profile-settings-tabs'
 
 export const UserProfilePage = () => {
   return (

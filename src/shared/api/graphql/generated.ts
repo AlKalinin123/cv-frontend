@@ -809,6 +809,18 @@ export type GetSkillCategoriesQuery = {
   skillCategories: Array<{ id: string; name: string }>
 }
 
+export type AddProfileSkillMutationVariables = Exact<{
+  input: AddProfileSkillInput
+}>
+
+export type AddProfileSkillMutation = { addProfileSkill: { id: string } }
+
+export type UpdateProfileSkillMutationVariables = Exact<{
+  input: UpdateProfileSkillInput
+}>
+
+export type UpdateProfileSkillMutation = { updateProfileSkill: { id: string } }
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetUsersQuery = {
@@ -1005,6 +1017,20 @@ export const GetSkillCategoriesDocument = `
   }
 }
     `
+export const AddProfileSkillDocument = `
+    mutation AddProfileSkill($input: AddProfileSkillInput!) {
+  addProfileSkill(skill: $input) {
+    id
+  }
+}
+    `
+export const UpdateProfileSkillDocument = `
+    mutation UpdateProfileSkill($input: UpdateProfileSkillInput!) {
+  updateProfileSkill(skill: $input) {
+    id
+  }
+}
+    `
 export const GetUsersDocument = `
     query GetUsers {
   users {
@@ -1169,6 +1195,21 @@ const injectedRtkApi = api.injectEndpoints({
         variables,
       }),
     }),
+    AddProfileSkill: build.mutation<
+      AddProfileSkillMutation,
+      AddProfileSkillMutationVariables
+    >({
+      query: (variables) => ({ document: AddProfileSkillDocument, variables }),
+    }),
+    UpdateProfileSkill: build.mutation<
+      UpdateProfileSkillMutation,
+      UpdateProfileSkillMutationVariables
+    >({
+      query: (variables) => ({
+        document: UpdateProfileSkillDocument,
+        variables,
+      }),
+    }),
     GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
       query: (variables) => ({ document: GetUsersDocument, variables }),
     }),
@@ -1215,6 +1256,8 @@ export const {
   useLazyGetSkillsQuery,
   useGetSkillCategoriesQuery,
   useLazyGetSkillCategoriesQuery,
+  useAddProfileSkillMutation,
+  useUpdateProfileSkillMutation,
   useGetUsersQuery,
   useLazyGetUsersQuery,
   useGetUserByIdQuery,

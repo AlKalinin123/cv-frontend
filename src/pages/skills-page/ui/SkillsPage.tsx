@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@mui/material'
 import { BaseModal } from '@/shared/ui'
-import { SkillsForm } from '@/widgets/SkillsForm'
+import { SkillsForm } from '@/widgets/skills-form'
 
 export const SkillsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)

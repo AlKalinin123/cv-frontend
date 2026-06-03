@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import { AuthForm } from '@/widgets/AuthForm'
+import { AuthForm } from '@/widgets/auth-form'
 import { useSignupMutation } from '@/shared/api/graphql/generated'
 import type { AuthInput } from '@/shared/api/graphql/generated'
 import { signupUser } from '@/features/auth/model/authActions'

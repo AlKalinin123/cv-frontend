@@ -1,4 +1,10 @@
-import { Modal as MuiModal, Box, Typography, IconButton } from '@mui/material'
+import {
+  Modal as MuiModal,
+  Box,
+  Typography,
+  IconButton,
+  Backdrop,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close' // Optional: if you want a close 'X' button
 import React from 'react'
 
@@ -31,7 +37,18 @@ export const BaseModal = ({
   children,
 }: BaseModalProps) => {
   return (
-    <MuiModal open={open} onClose={onClose} aria-labelledby="modal-title">
+    <MuiModal
+      open={open}
+      onClose={onClose}
+      aria-labelledby="modal-title"
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 500,
+        },
+      }}
+    >
       <Box sx={modalStyles}>
         {title && (
           <Box
