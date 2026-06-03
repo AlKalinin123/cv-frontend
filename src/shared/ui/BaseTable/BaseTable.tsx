@@ -11,10 +11,13 @@ import {
   TablePagination,
   Paper,
   Avatar,
+  InputAdornment,
 } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { BaseInput } from '../BaseInput/BaseInput'
+import SearchIcon from '@mui/icons-material/Search'
 
 type SortableValue = string | number | Date | boolean | null | undefined
 
@@ -117,6 +120,7 @@ export const BaseTable = ({
   order: initialOrder,
 }: BaseTableProps) => {
   const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('')
   const [order, setOrder] = useState<Order>(initialOrder || 'asc')
   const [orderBy, setOrderBy] = useState<keyof BaseTableData>(
     initialOrderBy || headers[0]?.value,
@@ -124,7 +128,7 @@ export const BaseTable = ({
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const sortedData = data.slice().sort(getComparator(order, orderBy))
+  const sortedTableEntries = data.slice().sort(getComparator(order, orderBy))
 
   const createSortHandler = (property: keyof BaseTableData) => () => {
     const isAsc = orderBy === property && order === 'asc'
@@ -136,8 +140,37 @@ export const BaseTable = ({
     navigate(`/users/${userId}/profile`)
   }
 
+  const filteredTableEntries = sortedTableEntries.filter((entry) =>
+    Object.entries(entry).some(([, value]) =>
+      String(value).includes(searchQuery),
+    ),
+  )
+
+  const getAvatarColor = (id: string) => {
+    let hash = 0
+
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash)
+    }
+
+    return avatarColors[Math.abs(hash) % avatarColors.length]
+  }
+
   return (
-    <Paper sx={{ overflow: 'hidden' }}>
+    <Box sx={{ overflow: 'hidden' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <BaseInput
+          placeholder="Search"
+          fullWidth={false}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          size="small"
+          startAdornment={
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          }
+        />
+      </Box>
       <TableContainer component={Paper} sx={{ maxHeight: 587 }}>
         <Table sx={{ minWidth: 650 }} stickyHeader aria-label="base-table">
           <TableHead>
@@ -165,7 +198,12 @@ export const BaseTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData
+            {filteredTableEntries.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={headers.length}>No data found</TableCell>
+              </TableRow>
+            ) : null}
+            {filteredTableEntries
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow
@@ -184,12 +222,7 @@ export const BaseTable = ({
                           ) : (
                             <Avatar
                               sx={{
-                                bgcolor:
-                                  avatarColors[
-                                    Math.floor(
-                                      Math.random() * avatarColors.length,
-                                    )
-                                  ],
+                                bgcolor: getAvatarColor(row.id as string),
                               }}
                             >
                               {(row.email as string)?.[0].toUpperCase() || '?'}
@@ -207,7 +240,7 @@ export const BaseTable = ({
           <TableFooter>
             <TableRow>
               <TableCell colSpan={headers.length}>
-                Total: {sortedData.length}
+                Total: {filteredTableEntries.length}
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -216,7 +249,7 @@ export const BaseTable = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={sortedData.length}
+        count={filteredTableEntries.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={(_, newPage) => setPage(newPage)}
@@ -224,6 +257,6 @@ export const BaseTable = ({
           setRowsPerPage(parseInt(event.target.value, 10))
         }
       />
-    </Paper>
+    </Box>
   )
 }

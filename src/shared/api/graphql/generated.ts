@@ -801,7 +801,13 @@ export type SignupMutation = {
 
 export type GetSkillsQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetSkillsQuery = { skills: Array<{ id: string; name: string }> }
+export type GetSkillsQuery = {
+  skills: Array<{
+    id: string
+    name: string
+    category: { id: string; name: string } | null
+  }>
+}
 
 export type GetSkillCategoriesQueryVariables = Exact<{ [key: string]: never }>
 
@@ -1006,6 +1012,10 @@ export const GetSkillsDocument = `
   skills {
     id
     name
+    category {
+      id
+      name
+    }
   }
 }
     `

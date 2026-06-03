@@ -2,6 +2,10 @@ query GetSkills {
   skills {
     id
     name
+    category {
+      id
+      name
+    }
   }
 }
 
