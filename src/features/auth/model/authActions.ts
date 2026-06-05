@@ -66,3 +66,7 @@ export const signupUser = async ({
 
   return result
 }
+
+export const logoutUser = () => {
+  authStorage.clear()
+}

@@ -1,10 +1,12 @@
-import { BaseTable } from '@/shared/ui'
-import { useGetUsersQuery } from '@/shared/api/graphql/generated'
-import { useDispatch } from 'react-redux'
-import { setUsers } from '@/entities/user/model/userSlice'
 import { useEffect, useMemo } from 'react'
-import type { User } from '@/shared/api/graphql/generated'
+import { useNavigate } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box } from '@mui/material'
+import { BaseTable } from '@/shared/ui'
+import { useGetUsersQuery, UserRole } from '@/shared/api/graphql/generated'
+import { setUsers } from '@/entities/user/model/userSlice'
+import type { User } from '@/shared/api/graphql/generated'
+import { selectCurrentUser } from '@/features/auth/model/selectors'
 
 const headers = [
   {
@@ -36,13 +38,22 @@ const headers = [
 export const UsersPage = () => {
   const { data, isLoading, error } = useGetUsersQuery()
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const users = useMemo(() => data?.users || [], [data])
+
+  const currentUser = useSelector(selectCurrentUser)
+  const isAdmin = currentUser?.role === UserRole.Admin
 
   useEffect(() => {
     // TODO: fix the type casting
     dispatch(setUsers(users as User[]))
   }, [users, dispatch])
+
+  const handleRowClick = (id: string) => {
+    if (isAdmin) {
+      navigate(`/users/${id}/profile`)
+    }
+  }
 
   const tableData = users.map((user) => ({
     avatar: user.profile?.avatar,
@@ -86,5 +97,11 @@ export const UsersPage = () => {
     )
   }
 
-  return <BaseTable data={tableData || []} headers={headers} />
+  return (
+    <BaseTable
+      data={tableData || []}
+      headers={headers}
+      onRowClick={(id) => handleRowClick(id)}
+    />
+  )
 }
