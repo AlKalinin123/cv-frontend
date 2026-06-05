@@ -10,12 +10,15 @@ interface BaseInputProps {
   value?: string
   variant?: 'standard' | 'outlined' | 'filled'
   type?: 'text' | 'email' | 'password'
+  startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: () => void
   name?: string
   error?: boolean
   helperText?: string
+  size?: 'small' | 'medium'
+  placeholder?: string
 }
 
 export const BaseInput = ({
@@ -28,12 +31,15 @@ export const BaseInput = ({
   value,
   variant = 'outlined',
   type = 'text',
+  startAdornment,
   endAdornment,
   onChange,
   onBlur,
   name,
   error,
   helperText,
+  size = 'small',
+  placeholder = '',
 }: BaseInputProps) => {
   return (
     <TextField
@@ -48,6 +54,7 @@ export const BaseInput = ({
       slotProps={{
         input: {
           readOnly: readonly,
+          startAdornment,
           endAdornment,
         },
       }}
@@ -56,6 +63,8 @@ export const BaseInput = ({
       name={name}
       error={error}
       helperText={helperText}
+      size={size}
+      placeholder={placeholder}
     />
   )
 }

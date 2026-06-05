@@ -759,6 +759,21 @@ export type CreatePositionMutationVariables = Exact<{
 
 export type CreatePositionMutation = { createPosition: { name: string } }
 
+export type GetProfileQueryVariables = Exact<{
+  userId: string | number
+}>
+
+export type GetProfileQuery = {
+  profile: {
+    id: string
+    first_name: string | null
+    last_name: string | null
+    avatar: string | null
+    skills: Array<{ name: string; categoryId: string | null; mastery: Mastery }>
+    languages: Array<{ name: string }>
+  }
+}
+
 export type UpdateProfileMutationVariables = Exact<{
   profile: UpdateProfileInput
 }>
@@ -783,6 +798,34 @@ export type SignupMutation = {
     user: { id: string; email: string; role: UserRole }
   }
 }
+
+export type GetSkillsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetSkillsQuery = {
+  skills: Array<{
+    id: string
+    name: string
+    category: { id: string; name: string } | null
+  }>
+}
+
+export type GetSkillCategoriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetSkillCategoriesQuery = {
+  skillCategories: Array<{ id: string; name: string }>
+}
+
+export type AddProfileSkillMutationVariables = Exact<{
+  input: AddProfileSkillInput
+}>
+
+export type AddProfileSkillMutation = { addProfileSkill: { id: string } }
+
+export type UpdateProfileSkillMutationVariables = Exact<{
+  input: UpdateProfileSkillInput
+}>
+
+export type UpdateProfileSkillMutation = { updateProfileSkill: { id: string } }
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never }>
 
@@ -923,6 +966,24 @@ export const CreatePositionDocument = `
   }
 }
     `
+export const GetProfileDocument = `
+    query GetProfile($userId: ID!) {
+  profile(userId: $userId) {
+    id
+    first_name
+    last_name
+    avatar
+    skills {
+      name
+      categoryId
+      mastery
+    }
+    languages {
+      name
+    }
+  }
+}
+    `
 export const UpdateProfileDocument = `
     mutation UpdateProfile($profile: UpdateProfileInput!) {
   updateProfile(profile: $profile) {
@@ -943,6 +1004,40 @@ export const SignupDocument = `
       email
       role
     }
+  }
+}
+    `
+export const GetSkillsDocument = `
+    query GetSkills {
+  skills {
+    id
+    name
+    category {
+      id
+      name
+    }
+  }
+}
+    `
+export const GetSkillCategoriesDocument = `
+    query GetSkillCategories {
+  skillCategories {
+    id
+    name
+  }
+}
+    `
+export const AddProfileSkillDocument = `
+    mutation AddProfileSkill($input: AddProfileSkillInput!) {
+  addProfileSkill(skill: $input) {
+    id
+  }
+}
+    `
+export const UpdateProfileSkillDocument = `
+    mutation UpdateProfileSkill($input: UpdateProfileSkillInput!) {
+  updateProfileSkill(skill: $input) {
+    id
   }
 }
     `
@@ -1086,6 +1181,9 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (variables) => ({ document: CreatePositionDocument, variables }),
     }),
+    GetProfile: build.query<GetProfileQuery, GetProfileQueryVariables>({
+      query: (variables) => ({ document: GetProfileDocument, variables }),
+    }),
     UpdateProfile: build.mutation<
       UpdateProfileMutation,
       UpdateProfileMutationVariables
@@ -1094,6 +1192,33 @@ const injectedRtkApi = api.injectEndpoints({
     }),
     Signup: build.mutation<SignupMutation, SignupMutationVariables>({
       query: (variables) => ({ document: SignupDocument, variables }),
+    }),
+    GetSkills: build.query<GetSkillsQuery, GetSkillsQueryVariables | void>({
+      query: (variables) => ({ document: GetSkillsDocument, variables }),
+    }),
+    GetSkillCategories: build.query<
+      GetSkillCategoriesQuery,
+      GetSkillCategoriesQueryVariables | void
+    >({
+      query: (variables) => ({
+        document: GetSkillCategoriesDocument,
+        variables,
+      }),
+    }),
+    AddProfileSkill: build.mutation<
+      AddProfileSkillMutation,
+      AddProfileSkillMutationVariables
+    >({
+      query: (variables) => ({ document: AddProfileSkillDocument, variables }),
+    }),
+    UpdateProfileSkill: build.mutation<
+      UpdateProfileSkillMutation,
+      UpdateProfileSkillMutationVariables
+    >({
+      query: (variables) => ({
+        document: UpdateProfileSkillDocument,
+        variables,
+      }),
     }),
     GetUsers: build.query<GetUsersQuery, GetUsersQueryVariables | void>({
       query: (variables) => ({ document: GetUsersDocument, variables }),
@@ -1133,8 +1258,16 @@ export const {
   useGetPositionsQuery,
   useLazyGetPositionsQuery,
   useCreatePositionMutation,
+  useGetProfileQuery,
+  useLazyGetProfileQuery,
   useUpdateProfileMutation,
   useSignupMutation,
+  useGetSkillsQuery,
+  useLazyGetSkillsQuery,
+  useGetSkillCategoriesQuery,
+  useLazyGetSkillCategoriesQuery,
+  useAddProfileSkillMutation,
+  useUpdateProfileSkillMutation,
   useGetUsersQuery,
   useLazyGetUsersQuery,
   useGetUserByIdQuery,

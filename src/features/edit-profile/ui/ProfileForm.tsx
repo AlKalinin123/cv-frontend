@@ -72,7 +72,6 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
   const positions = positionsData?.positions || []
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log('Submit', data)
     try {
       await updateUser({
         input: {

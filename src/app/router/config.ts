@@ -1,12 +1,11 @@
 import { createBrowserRouter, type UIMatch } from 'react-router'
-import {
-  HomePage,
-  LoginPage,
-  SignupPage,
-  UsersPage,
-  UserProfilePage,
-} from '@/pages/home'
-import { AuthGuard } from '@/widgets/AuthGuard'
+import { HomePage } from '@/pages/home-page'
+import { LoginPage } from '@/pages/login-page'
+import { SignupPage } from '@/pages/signup-page'
+import { SkillsPage } from '@/pages/skills-page'
+import { UsersPage } from '@/pages/users-page'
+import { UserProfilePage } from '@/pages/user-profile-page'
+import { AuthGuard } from '@/widgets/auth-guard'
 import { MainLayout } from '../layouts/main-layout'
 import { AuthLayout } from '../layouts/auth-layout'
 import { userLoader } from './loaders/user.loader'
@@ -65,6 +64,10 @@ export const router = createBrowserRouter([
                 ],
               },
             ],
+          },
+          {
+            path: '/skills',
+            Component: SkillsPage,
           },
         ],
       },

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router'
 import { Box, Container } from '@mui/material'
-import { Tabs } from '@/widgets/Tabs'
+import { Tabs } from '@/widgets/auth-tabs'
 
 export const AuthLayout = () => {
   return (

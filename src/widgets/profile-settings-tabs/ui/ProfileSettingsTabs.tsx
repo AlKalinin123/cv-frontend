@@ -1,12 +1,14 @@
-import { Box, Typography } from '@mui/material'
+import { ProfileForm } from '@/features/edit-profile'
+import { ProfileSkills } from '@/features/profile-skills'
+import { ProfileLanguages } from '@/features/profile-languages'
+import { BaseTabs } from '@/shared/ui'
 import { useParams } from 'react-router'
-import { Breadcrumbs } from '@/widgets/Breadcrumbs'
 import { selectUserById } from '@/entities/user/model/selectors'
-import { ProfileForm } from '@/widgets/ProfileForm'
 import { useSelector } from 'react-redux'
 import { useGetUserByIdQuery, type User } from '@/shared/api/graphql/generated'
+import { Box, Typography } from '@mui/material'
 
-export const UserProfilePage = () => {
+export const ProfileSettingsTabs = () => {
   const { userId } = useParams<{ userId: string }>()
 
   const cachedUser = useSelector(userId ? selectUserById(userId) : () => null)
@@ -20,20 +22,29 @@ export const UserProfilePage = () => {
 
   const user = cachedUser ?? fetchedUser?.user
 
+  const tabs = [
+    {
+      label: 'Profile',
+      content: <ProfileForm user={user as User} />,
+    },
+    {
+      label: 'Skills',
+      content: <ProfileSkills />,
+    },
+    {
+      label: 'Languages',
+      content: <ProfileLanguages />,
+    },
+  ]
+
   return (
-    <Box>
-      <Breadcrumbs />
-      {user !== null && (
-        <Box sx={{ mt: 4 }}>
-          {/* TODO: fix type casting */}
-          <ProfileForm user={user as User} />
-        </Box>
-      )}
+    <>
+      <BaseTabs tabs={tabs} />
       {!user && (
         <Box sx={{ mt: 4 }}>
           <Typography>User data not found</Typography>
         </Box>
       )}
-    </Box>
+    </>
   )
 }

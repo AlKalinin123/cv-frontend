@@ -1,5 +1,0 @@
-export { HomePage } from './ui/HomePage'
-export { LoginPage } from './ui/LoginPage/LoginPage'
-export { SignupPage } from './ui/SignupPage/SignupPage'
-export { UsersPage } from './ui/UsersPage/UsersPage'
-export { UserProfilePage } from './ui/UserProfilePage/UserProfilePage'

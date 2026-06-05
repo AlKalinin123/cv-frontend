@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router'
 import { Grid, Paper } from '@mui/material'
-import { Header } from '@/widgets/Header'
-import { Sidebar } from '@/widgets/Sidebar'
+import { Header } from '@/widgets/header'
+import { Sidebar } from '@/widgets/side-bar'
 
 export const MainLayout = () => {
   return (
