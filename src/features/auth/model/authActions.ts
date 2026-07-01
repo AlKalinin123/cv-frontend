@@ -1,4 +1,4 @@
-import { setCredentials } from './authSlice'
+import { clearCredentials, setCredentials } from './authSlice'
 import { authStorage } from './storage'
 import type { AppDispatch } from '@/app/store'
 import type {
@@ -38,6 +38,7 @@ export const loginUser = async ({
 
   const payload = {
     access_token: result.login.access_token,
+    refresh_token: result.login.refresh_token,
     user: result.login.user,
   }
 
@@ -58,6 +59,7 @@ export const signupUser = async ({
 
   const payload = {
     access_token: result.signup.access_token,
+    refresh_token: result.signup.refresh_token,
     user: result.signup.user,
   }
 
@@ -67,6 +69,7 @@ export const signupUser = async ({
   return result
 }
 
-export const logoutUser = () => {
+export const logoutUser = (dispatch: AppDispatch) => {
   authStorage.clear()
+  dispatch(clearCredentials())
 }

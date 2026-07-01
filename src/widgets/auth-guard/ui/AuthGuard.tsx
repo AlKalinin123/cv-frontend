@@ -1,13 +1,30 @@
 import { Navigate, Outlet, useLocation } from 'react-router'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+import { CircularProgress, Box } from '@mui/material'
 import type { RootState } from '@/app/store'
 
 export function AuthGuard() {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken)
+  const initialized = useSelector((state: RootState) => state.auth.initialized)
   const isAuthenticated = !!accessToken
 
   const location = useLocation()
+
+  if (!initialized) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   if (!isAuthenticated) {
     toast.error('Please login to access this page', {

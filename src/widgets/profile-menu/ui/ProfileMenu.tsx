@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link as RouterLink, useNavigate } from 'react-router'
+import { useAppDispatch } from '@/app/store/hooks'
 import {
   Box,
   Avatar,
@@ -32,6 +33,7 @@ const settings = [
 ]
 
 export const ProfileMenu = () => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(
     null,
@@ -49,7 +51,7 @@ export const ProfileMenu = () => {
   }
 
   const handleLogout = () => {
-    logoutUser()
+    logoutUser(dispatch)
     navigate('/auth/login')
   }
 
