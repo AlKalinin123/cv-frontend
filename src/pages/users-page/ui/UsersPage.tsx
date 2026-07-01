@@ -81,7 +81,7 @@ export const UsersPage = () => {
     )
   }
 
-  if (error) {
+  if (error && typeof error === 'object' && 'message' in error) {
     return (
       <Box
         sx={{
@@ -92,7 +92,9 @@ export const UsersPage = () => {
           width: '100%',
         }}
       >
-        <div>Error: {error.message}</div>
+        <div>
+          Error: {(error as { message?: string })?.message || 'Unknown error'}
+        </div>
       </Box>
     )
   }
