@@ -1,8 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { preferencesStorage } from './storage'
+import type { PrefTheme } from './types'
 
 interface PreferencesState {
-  theme: string
+  theme: PrefTheme
   interfaceLang: string
   cvLang: string
 }
@@ -17,7 +18,7 @@ export const preferencesSlice = createSlice({
   name: 'preferences',
   initialState,
   reducers: {
-    setTheme: (state, action: PayloadAction<string>) => {
+    setTheme: (state, action: PayloadAction<PrefTheme>) => {
       state.theme = action.payload
       preferencesStorage.setTheme(action.payload)
     },

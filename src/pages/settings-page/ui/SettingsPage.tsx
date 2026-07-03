@@ -11,6 +11,7 @@ import {
   setInterfaceLang,
   setCvLang,
 } from '@/features/preferences/model/slice'
+import { isPrefTheme } from '@/features/preferences/model/types'
 
 const appearanceOptions = [
   { value: 'light', label: 'Light' },
@@ -32,7 +33,10 @@ export const SettingsPage = () => {
   const cvLang = useSelector(selectCvLang)
 
   const handleAppearanceChange = (event: SelectChangeEvent) => {
-    dispatch(setTheme(event.target.value))
+    const value = event.target.value
+    if (isPrefTheme(value)) {
+      dispatch(setTheme(value))
+    }
   }
 
   const handleInterfaceLangChange = (event: SelectChangeEvent) => {
