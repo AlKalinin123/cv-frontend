@@ -1,7 +1,10 @@
 import { useRouteError, isRouteErrorResponse } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 export const RootErrorBoundary = () => {
+  const { t } = useTranslation('common')
   const error = useRouteError()
+
   if (isRouteErrorResponse(error)) {
     return (
       <>
@@ -11,16 +14,18 @@ export const RootErrorBoundary = () => {
         <p>{error.data}</p>
       </>
     )
-  } else if (error instanceof Error) {
+  }
+
+  if (error instanceof Error) {
     return (
       <div>
-        <h1>Error</h1>
+        <h1>{t('errors.title')}</h1>
         <p>{error.message}</p>
-        <p>The stack trace is:</p>
+        <p>{t('errors.stackTrace')}</p>
         <pre>{error.stack}</pre>
       </div>
     )
-  } else {
-    return <h1>Unknown Error</h1>
   }
+
+  return <h1>{t('errors.unknown')}</h1>
 }

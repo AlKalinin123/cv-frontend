@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import { AuthForm } from '@/widgets/auth-form'
 import { useSignupMutation } from '@/shared/api/graphql/generated'
@@ -7,6 +8,7 @@ import type { AuthInput } from '@/shared/api/graphql/generated'
 import { signupUser } from '@/features/auth/model/authActions'
 
 export function SignupPage() {
+  const { t } = useTranslation('common')
   const [signup] = useSignupMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -22,16 +24,16 @@ export function SignupPage() {
       navigate('/')
     } catch (err: unknown) {
       console.error(err)
-      toast.error((err as Error)?.message || 'Signup failed')
+      toast.error((err as Error)?.message || t('auth.signupFailed'))
     }
   }
 
   return (
     <AuthForm
-      title="Register now"
-      text="Welcome! Sign up to continue"
-      primaryBtnText="Create account"
-      secondaryBtnText="I have an account"
+      title={t('auth.registerNow')}
+      text={t('auth.signupSubtitle')}
+      primaryBtnText={t('auth.createAccount')}
+      secondaryBtnText={t('auth.haveAccount')}
       onSubmit={handleSignup}
     />
   )

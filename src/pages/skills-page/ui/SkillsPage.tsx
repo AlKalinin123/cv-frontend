@@ -1,18 +1,21 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BaseModal } from '@/shared/ui'
 import { SkillsForm } from '@/widgets/skills-form'
 import { BaseTable } from '@/shared/ui'
 import { useGetSkillsQuery } from '@/shared/api/graphql/generated'
 
-const headers = [
-  { value: 'name', label: 'Name' },
-  { value: 'type', label: 'Type' },
-  { value: 'category', label: 'Category' },
-]
-
 export const SkillsPage = () => {
+  const { t } = useTranslation('common')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { data: skillsData } = useGetSkillsQuery()
+
+  const headers = [
+    { value: 'name', label: t('skills.name') },
+    { value: 'type', label: t('skills.type') },
+    { value: 'category', label: t('skills.category') },
+  ]
+
   const tableData =
     skillsData?.skills?.map((skill) => ({
       id: skill.id,
@@ -25,14 +28,10 @@ export const SkillsPage = () => {
     <>
       <BaseTable data={tableData} headers={headers} />
       <div>
-        {/* <Button variant="contained" onClick={() => setIsModalOpen(true)}>
-          Create skill
-        </Button> */}
-
         <BaseModal
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Add skill"
+          title={t('skills.addSkill')}
         >
           <SkillsForm
             onClose={() => setIsModalOpen(false)}

@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
 import { BaseInput } from '../BaseInput/BaseInput'
 import SearchIcon from '@mui/icons-material/Search'
 
@@ -35,6 +34,7 @@ interface BaseTableProps {
   headers: BaseTableHeader[]
   orderBy?: keyof BaseTableData
   order?: 'asc' | 'desc'
+  onRowClick?: (rowId: string) => void
 }
 
 type Order = 'asc' | 'desc'
@@ -118,8 +118,8 @@ export const BaseTable = ({
   headers,
   orderBy: initialOrderBy,
   order: initialOrder,
+  onRowClick,
 }: BaseTableProps) => {
-  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const [order, setOrder] = useState<Order>(initialOrder || 'asc')
   const [orderBy, setOrderBy] = useState<keyof BaseTableData>(
@@ -134,10 +134,6 @@ export const BaseTable = ({
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
-  }
-
-  const handleRowClick = (userId: string) => {
-    navigate(`/users/${userId}/profile`)
   }
 
   const filteredTableEntries = sortedTableEntries.filter((entry) =>
@@ -209,7 +205,7 @@ export const BaseTable = ({
                 <TableRow
                   key={row.id as string}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  onClick={() => handleRowClick(row.id as string)}
+                  onClick={() => onRowClick?.(row.id as string)}
                 >
                   {headers.map((header) => {
                     const value = row[header.value]

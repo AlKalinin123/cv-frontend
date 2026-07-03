@@ -9,37 +9,40 @@ import MovingIcon from '@mui/icons-material/Moving'
 import TranslateIcon from '@mui/icons-material/Translate'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import { Link } from 'react-router'
-
-const sidebarItems = [
-  {
-    label: 'Employees',
-    link: '/users',
-    icon: <GroupIcon />,
-  },
-  {
-    label: 'Skills',
-    link: '/skills',
-    icon: <MovingIcon />,
-  },
-  {
-    label: 'Languages',
-    link: '/languages',
-    icon: <TranslateIcon />,
-  },
-  {
-    label: 'CVs',
-    link: '/cvs',
-    icon: <ContactPageIcon />,
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export const Sidebar = () => {
+  const { t } = useTranslation('common')
+
+  const sidebarItems = [
+    {
+      label: t('nav.employees'),
+      link: '/users',
+      icon: <GroupIcon />,
+    },
+    {
+      label: t('nav.skills'),
+      link: '/skills',
+      icon: <MovingIcon />,
+    },
+    {
+      label: t('nav.languages'),
+      link: '/languages',
+      icon: <TranslateIcon />,
+    },
+    {
+      label: t('nav.cvs'),
+      link: '/cvs',
+      icon: <ContactPageIcon />,
+    },
+  ]
+
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <nav aria-label="main mailbox folders">
         <List>
           {sidebarItems.map(({ label, link, icon }) => (
-            <ListItem key={label} disablePadding>
+            <ListItem key={link} disablePadding>
               <ListItemButton component={Link} to={link}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />

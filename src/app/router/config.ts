@@ -1,6 +1,7 @@
-import { createBrowserRouter, type UIMatch } from 'react-router'
-import { HomePage } from '@/pages/home-page'
+import { createBrowserRouter, redirect, type UIMatch } from 'react-router'
+import { i18n } from '@/shared/config/i18n'
 import { LoginPage } from '@/pages/login-page'
+import { SettingsPage } from '@/pages/settings-page'
 import { SignupPage } from '@/pages/signup-page'
 import { SkillsPage } from '@/pages/skills-page'
 import { UsersPage } from '@/pages/users-page'
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     ErrorBoundary: RootErrorBoundary,
-    Component: HomePage,
+    loader: () => redirect('/users'),
   },
   {
     Component: AuthLayout,
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
           {
             path: '/users',
             handle: {
-              breadcrumb: 'Users',
+              breadcrumb: 'breadcrumbs.users',
             },
             children: [
               {
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
                     handle: {
                       breadcrumb: (match: UIMatch<User>) => {
                         const user = match.data
-                        return user ? user.email : 'User'
+                        return user ? user.email : i18n.t('common.user')
                       },
                     },
                   },
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
           {
             path: '/skills',
             Component: SkillsPage,
+          },
+          {
+            path: '/settings',
+            Component: SettingsPage,
           },
         ],
       },

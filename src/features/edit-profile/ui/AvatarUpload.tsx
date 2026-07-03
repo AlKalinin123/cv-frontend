@@ -1,6 +1,7 @@
 import { Avatar, ButtonBase, Box, Typography } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { useMemo, useEffect, type ChangeEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface AvatarUploadProps {
   value?: File | null
@@ -15,6 +16,7 @@ export function AvatarUpload({
   error,
   helperText,
 }: AvatarUploadProps) {
+  const { t } = useTranslation('common')
   const preview = useMemo(() => {
     if (!value) return undefined
     return URL.createObjectURL(value)
@@ -46,7 +48,7 @@ export function AvatarUpload({
         }}
       >
         <Avatar
-          alt="Upload avatar"
+          alt={t('profile.uploadAvatar')}
           src={preview}
           sx={{ width: 96, height: 96 }}
         />
@@ -61,10 +63,10 @@ export function AvatarUpload({
       <Box sx={{ ml: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FileUploadIcon />
-          <Typography variant="body2">Upload avatar image</Typography>
+          <Typography variant="body2">{t('profile.uploadAvatar')}</Typography>
         </Box>
         <Typography variant="caption">
-          png, jpg or gif no more than 0.5MB
+          {t('profile.uploadAvatarHint')}
         </Typography>
       </Box>
       {helperText && (

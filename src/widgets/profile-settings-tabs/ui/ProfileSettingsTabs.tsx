@@ -3,12 +3,14 @@ import { ProfileSkills } from '@/features/profile-skills'
 import { ProfileLanguages } from '@/features/profile-languages'
 import { BaseTabs } from '@/shared/ui'
 import { useParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import { selectUserById } from '@/entities/user/model/selectors'
 import { useSelector } from 'react-redux'
 import { useGetUserByIdQuery, type User } from '@/shared/api/graphql/generated'
 import { Box, Typography } from '@mui/material'
 
 export const ProfileSettingsTabs = () => {
+  const { t } = useTranslation('common')
   const { userId } = useParams<{ userId: string }>()
 
   const cachedUser = useSelector(userId ? selectUserById(userId) : () => null)
@@ -24,15 +26,15 @@ export const ProfileSettingsTabs = () => {
 
   const tabs = [
     {
-      label: 'Profile',
+      label: t('profile.profile'),
       content: <ProfileForm user={user as User} />,
     },
     {
-      label: 'Skills',
+      label: t('profile.skills'),
       content: <ProfileSkills />,
     },
     {
-      label: 'Languages',
+      label: t('profile.languages'),
       content: <ProfileLanguages />,
     },
   ]
@@ -42,7 +44,7 @@ export const ProfileSettingsTabs = () => {
       <BaseTabs tabs={tabs} />
       {!user && (
         <Box sx={{ mt: 4 }}>
-          <Typography>User data not found</Typography>
+          <Typography>{t('profile.userNotFound')}</Typography>
         </Box>
       )}
     </>

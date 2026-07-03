@@ -1,5 +1,6 @@
 import { Box, Button, Grid, LinearProgress, Typography } from '@mui/material'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BaseModal } from '@/shared/ui'
 import { SkillsForm } from '@/widgets/skills-form'
 import { useParams } from 'react-router'
@@ -25,6 +26,7 @@ const masteryToValue = {
 }
 
 export const ProfileSkills = () => {
+  const { t } = useTranslation('common')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -71,18 +73,18 @@ export const ProfileSkills = () => {
       (skill) => skill.name === data.skillName,
     )
     if (skillAlreadyExists) {
-      toast.error('Skill already exists')
+      toast.error(t('skills.skillAlreadyExists'))
       return
-    } else {
-      addProfileSkill({
-        input: {
-          userId: userId ?? '',
-          name: data.skillName,
-          mastery: data.masteryId as Mastery,
-          categoryId: categoryId ?? '',
-        },
-      })
     }
+
+    addProfileSkill({
+      input: {
+        userId: userId ?? '',
+        name: data.skillName,
+        mastery: data.masteryId as Mastery,
+        categoryId: categoryId ?? '',
+      },
+    })
   }
 
   const updateProfileSkillHandler = (data: {
@@ -111,7 +113,7 @@ export const ProfileSkills = () => {
             <BaseModal
               open={isUpdateModalOpen}
               onClose={() => setIsUpdateModalOpen(false)}
-              title="Update skill"
+              title={t('skills.updateSkill')}
             >
               <SkillsForm
                 onClose={() => setIsUpdateModalOpen(false)}
@@ -162,9 +164,9 @@ export const ProfileSkills = () => {
                               width: '200px',
                               height: 8,
                               borderRadius: 4,
-                              backgroundColor: 'warning.light', // remaining 80%
+                              backgroundColor: 'warning.light',
                               '& .MuiLinearProgress-bar': {
-                                backgroundColor: 'error.main', // filled 20%
+                                backgroundColor: 'error.main',
                               },
                             }}
                           />
@@ -180,7 +182,7 @@ export const ProfileSkills = () => {
         )}
       {profileSkillsByCategory &&
         Object.keys(profileSkillsByCategory).length === 0 && (
-          <Typography variant="body1">No skills found</Typography>
+          <Typography variant="body1">{t('skills.noSkillsFound')}</Typography>
         )}
 
       <Box
@@ -189,13 +191,13 @@ export const ProfileSkills = () => {
       >
         <Box>
           <Button variant="contained" onClick={() => setIsAddModalOpen(true)}>
-            Add skill
+            {t('skills.addSkill')}
           </Button>
 
           <BaseModal
             open={isAddModalOpen}
             onClose={() => setIsAddModalOpen(false)}
-            title="Add skill"
+            title={t('skills.addSkill')}
           >
             <SkillsForm
               onClose={() => setIsAddModalOpen(false)}
@@ -215,15 +217,15 @@ export const ProfileSkills = () => {
               Object.keys(profileSkillsByCategory).length === 0
             }
           >
-            Remove skills
+            {t('skills.removeSkills')}
           </Button>
 
           <BaseModal
             open={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
-            title="Remove skills"
+            title={t('skills.removeSkills')}
           >
-            Remove skills
+            {t('skills.removeSkills')}
           </BaseModal>
         </Box>
       </Box>

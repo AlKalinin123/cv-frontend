@@ -1,4 +1,5 @@
 import { useState, type MouseEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   FormControl,
@@ -26,6 +27,7 @@ export function AuthForm({
   secondaryBtnText,
   onSubmit,
 }: AuthFormProps) {
+  const { t } = useTranslation('common')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -73,14 +75,14 @@ export function AuthForm({
             <BaseInput
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              label="Email"
+              label={t('auth.email')}
               type="email"
               required
             />
           </FormControl>
           <FormControl>
             <BaseInput
-              label="Password"
+              label={t('auth.password')}
               type={showPassword ? 'text' : 'password'}
               required
               value={password}
@@ -90,8 +92,8 @@ export function AuthForm({
                   <IconButton
                     aria-label={
                       showPassword
-                        ? 'hide the password'
-                        : 'display the password'
+                        ? t('auth.hidePassword')
+                        : t('auth.showPassword')
                     }
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}

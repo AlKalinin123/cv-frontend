@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/system'
 import { Tabs as MuiTabs, Tab } from '@mui/material'
 
@@ -10,6 +11,7 @@ function a11yProps(index: number) {
 }
 
 export function Tabs() {
+  const { t } = useTranslation('common')
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -37,8 +39,8 @@ export function Tabs() {
         centered
         sx={{ height: '100%' }}
       >
-        <Tab label="Login" {...a11yProps(0)} />
-        <Tab label="Sign up" {...a11yProps(1)} />
+        <Tab label={t('auth.login')} {...a11yProps(0)} />
+        <Tab label={t('auth.signup')} {...a11yProps(1)} />
       </MuiTabs>
     </Box>
   )

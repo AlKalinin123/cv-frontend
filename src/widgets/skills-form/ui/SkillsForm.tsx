@@ -1,5 +1,6 @@
 import { Grid, CircularProgress, Stack, Button, Box } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { BaseSelect } from '@/shared/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -19,11 +20,6 @@ interface SkillsFormProps {
   selectedMasteryId?: string
 }
 
-const skillsSchema = z.object({
-  skillName: z.string().min(1, 'Skill is required'),
-  masteryId: z.string().min(1, 'Mastery is required'),
-})
-
 export const SkillsForm = ({
   onClose,
   onSubmit,
@@ -32,6 +28,13 @@ export const SkillsForm = ({
   selectedSkillName,
   selectedMasteryId,
 }: SkillsFormProps) => {
+  const { t } = useTranslation('common')
+
+  const skillsSchema = z.object({
+    skillName: z.string().min(1, t('validation.skillRequired')),
+    masteryId: z.string().min(1, t('validation.masteryRequired')),
+  })
+
   const initialValues = {
     skillName: action === 'edit' ? selectedSkillName || '' : '',
     masteryId: action === 'edit' ? selectedMasteryId || '' : '',
@@ -57,16 +60,16 @@ export const SkillsForm = ({
         (skill) => skill.name === data.skillName,
       )
       if (skillExists) {
-        toast.error('Skill already exists')
+        toast.error(t('skills.skillAlreadyExists'))
         return
-      } else {
-        try {
-          onSubmit(data)
-          onClose()
-          toast.success('Skill added successfully')
-        } catch (error) {
-          toast.error(`Failed to add skill: ${error}`)
-        }
+      }
+
+      try {
+        onSubmit(data)
+        onClose()
+        toast.success(t('skills.skillAdded'))
+      } catch (error) {
+        toast.error(t('skills.skillAddFailed', { error: String(error) }))
       }
     }
 
@@ -74,9 +77,9 @@ export const SkillsForm = ({
       try {
         onSubmit(data)
         onClose()
-        toast.success('Skill updated successfully')
+        toast.success(t('skills.skillUpdated'))
       } catch (error) {
-        toast.error(`Failed to update skill: ${error}`)
+        toast.error(t('skills.skillUpdateFailed', { error: String(error) }))
       }
     }
   })
@@ -95,7 +98,7 @@ export const SkillsForm = ({
                 render={({ field, fieldState }) => (
                   <BaseSelect
                     {...field}
-                    label="Skill"
+                    label={t('skills.skill')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                     value={field.value}
@@ -116,7 +119,7 @@ export const SkillsForm = ({
                 render={({ field, fieldState }) => (
                   <BaseSelect
                     {...field}
-                    label="Mastery"
+                    label={t('skills.mastery')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                     value={field.value}
@@ -137,14 +140,14 @@ export const SkillsForm = ({
               onClick={onClose}
               sx={{ alignSelf: 'flex-end' }}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               type="submit"
               variant="contained"
               sx={{ alignSelf: 'flex-end' }}
             >
-              {action === 'add' ? 'Add' : 'Confirm'}
+              {action === 'add' ? t('common.add') : t('common.confirm')}
             </Button>
           </Box>
         </Stack>
