@@ -1,5 +1,4 @@
-import { createBrowserRouter, type UIMatch } from 'react-router'
-import { HomePage } from '@/pages/home-page'
+import { createBrowserRouter, redirect, type UIMatch } from 'react-router'
 import { LoginPage } from '@/pages/login-page'
 import { SettingsPage } from '@/pages/settings-page'
 import { SignupPage } from '@/pages/signup-page'
@@ -17,7 +16,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     ErrorBoundary: RootErrorBoundary,
-    Component: HomePage,
+    loader: () => redirect('/users'),
   },
   {
     Component: AuthLayout,
