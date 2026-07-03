@@ -1,6 +1,7 @@
 import { BaseSelect } from '@/shared/ui/BaseSelect/BaseSelect'
 import { Box, type SelectChangeEvent } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
   selectTheme,
   selectInterfaceLang,
@@ -13,24 +14,24 @@ import {
 } from '@/features/preferences/model/slice'
 import { isPrefTheme } from '@/features/preferences/model/types'
 
-const appearanceOptions = [
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'deviceSettings', label: 'Device Settings' },
-]
-
-const languageOptions = [
-  { value: 'en', label: 'English' },
-  { value: 'ru', label: 'Russian' },
-]
-
 export const SettingsPage = () => {
+  const { t } = useTranslation('common')
   const dispatch = useDispatch()
 
-  // Read data from synchronized global state
   const theme = useSelector(selectTheme)
   const interfaceLang = useSelector(selectInterfaceLang)
   const cvLang = useSelector(selectCvLang)
+
+  const appearanceOptions = [
+    { value: 'light', label: t('settings.theme.light') },
+    { value: 'dark', label: t('settings.theme.dark') },
+    { value: 'deviceSettings', label: t('settings.theme.deviceSettings') },
+  ]
+
+  const languageOptions = [
+    { value: 'en', label: t('settings.languages.en') },
+    { value: 'ru', label: t('settings.languages.ru') },
+  ]
 
   const handleAppearanceChange = (event: SelectChangeEvent) => {
     const value = event.target.value
@@ -59,21 +60,21 @@ export const SettingsPage = () => {
       }}
     >
       <BaseSelect
-        label="Appearance"
+        label={t('settings.appearance')}
         value={theme}
         options={appearanceOptions}
         onChange={handleAppearanceChange}
         fullWidth
       />
       <BaseSelect
-        label="Interface Language"
+        label={t('settings.interfaceLanguage')}
         value={interfaceLang}
         options={languageOptions}
         onChange={handleInterfaceLangChange}
         fullWidth
       />
       <BaseSelect
-        label="CV Language"
+        label={t('settings.cvLanguage')}
         value={cvLang}
         options={languageOptions}
         onChange={handleCvLangChange}

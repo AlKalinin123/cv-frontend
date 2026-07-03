@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,15 +33,21 @@ interface ProfileFormValues {
   positionId: string
 }
 
-const profileSchema = z.object({
-  avatar: z.any().optional(),
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  departmentId: z.string().min(1, 'Department is required'),
-  positionId: z.string().min(1, 'Position is required'),
-})
-
 export const ProfileForm = ({ user }: ProfileFormProps) => {
+  const { t } = useTranslation('common')
+
+  const profileSchema = useMemo(
+    () =>
+      z.object({
+        avatar: z.any().optional(),
+        firstName: z.string().min(1, t('validation.firstNameRequired')),
+        lastName: z.string().min(1, t('validation.lastNameRequired')),
+        departmentId: z.string().min(1, t('validation.departmentRequired')),
+        positionId: z.string().min(1, t('validation.positionRequired')),
+      }),
+    [t],
+  )
+
   const { control, handleSubmit, reset } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -82,12 +89,16 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
           cvsIds: user?.cvs?.map((cv) => cv.id) || [],
         },
       })
-      toast.success('Profile updated successfully')
+      toast.success(t('profile.profileUpdated'))
     } catch (error) {
       console.error(error)
       toast.error((error as Error).name)
     }
   })
+
+  const memberSinceDate = user?.created_at
+    ? new Date(Number(user.created_at)).toDateString()
+    : ''
 
   return (
     <form onSubmit={onSubmit}>
@@ -124,10 +135,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
             )}
             <Typography variant="body2">{user?.email}</Typography>
             <Typography variant="body2">
-              A member since{' '}
-              {user?.created_at
-                ? new Date(Number(user.created_at)).toDateString()
-                : ''}
+              {t('profile.memberSince', { date: memberSinceDate })}
             </Typography>
           </Box>
           <Grid container spacing={2}>
@@ -138,7 +146,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
                 render={({ field, fieldState }) => (
                   <BaseInput
                     {...field}
-                    label="First Name"
+                    label={t('profile.firstName')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                   />
@@ -152,7 +160,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
                 render={({ field, fieldState }) => (
                   <BaseInput
                     {...field}
-                    label="Last Name"
+                    label={t('profile.lastName')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                   />
@@ -166,7 +174,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
                 render={({ field, fieldState }) => (
                   <BaseSelect
                     {...field}
-                    label="Department"
+                    label={t('profile.department')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                     value={field.value || ''}
@@ -186,7 +194,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
                 render={({ field, fieldState }) => (
                   <BaseSelect
                     {...field}
-                    label="Position"
+                    label={t('profile.position')}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                     value={field.value || ''}
@@ -205,7 +213,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
             variant="contained"
             sx={{ alignSelf: 'flex-end' }}
           >
-            Update
+            {t('profile.update')}
           </Button>
         </Stack>
       )}

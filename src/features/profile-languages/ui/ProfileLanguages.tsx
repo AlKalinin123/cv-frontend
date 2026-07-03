@@ -1,3 +1,7 @@
+import { useTranslation } from 'react-i18next'
+
 export const ProfileLanguages = () => {
-  return <div>ProfileLanguages</div>
+  const { t } = useTranslation('common')
+
+  return <div>{t('profile.languages')}</div>
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Box } from '@mui/material'
 import { BaseTable } from '@/shared/ui'
 import { useGetUsersQuery, UserRole } from '@/shared/api/graphql/generated'
@@ -8,44 +9,26 @@ import { setUsers } from '@/entities/user/model/userSlice'
 import type { User } from '@/shared/api/graphql/generated'
 import { selectCurrentUser } from '@/features/auth/model/selectors'
 
-const headers = [
-  {
-    value: 'avatar',
-    label: '',
-  },
-  {
-    value: 'first_name',
-    label: 'First name',
-  },
-  {
-    value: 'last_name',
-    label: 'Last name',
-  },
-  {
-    value: 'email',
-    label: 'Email',
-  },
-  {
-    value: 'department',
-    label: 'Department',
-  },
-  {
-    value: 'position',
-    label: 'Position',
-  },
-]
-
 export const UsersPage = () => {
+  const { t } = useTranslation('common')
   const { data, isLoading, error } = useGetUsersQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const users = useMemo(() => data?.users || [], [data])
 
+  const headers = [
+    { value: 'avatar', label: '' },
+    { value: 'first_name', label: t('users.firstName') },
+    { value: 'last_name', label: t('users.lastName') },
+    { value: 'email', label: t('users.email') },
+    { value: 'department', label: t('users.department') },
+    { value: 'position', label: t('users.position') },
+  ]
+
   const currentUser = useSelector(selectCurrentUser)
   const isAdmin = currentUser?.role === UserRole.Admin
 
   useEffect(() => {
-    // TODO: fix the type casting
     dispatch(setUsers(users as User[]))
   }, [users, dispatch])
 
@@ -76,7 +59,7 @@ export const UsersPage = () => {
           width: '100%',
         }}
       >
-        <div>Loading...</div>
+        <div>{t('common.loading')}</div>
       </Box>
     )
   }
@@ -93,7 +76,8 @@ export const UsersPage = () => {
         }}
       >
         <div>
-          Error: {(error as { message?: string })?.message || 'Unknown error'}
+          {t('common.error')}:{' '}
+          {(error as { message?: string })?.message || t('common.unknownError')}
         </div>
       </Box>
     )

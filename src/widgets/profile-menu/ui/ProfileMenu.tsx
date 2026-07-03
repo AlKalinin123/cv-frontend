@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Link as RouterLink, useNavigate } from 'react-router'
 import { useAppDispatch } from '@/app/store/hooks'
 import {
@@ -17,22 +18,8 @@ import { Person, Settings, Logout } from '@mui/icons-material'
 import { selectCurrentUser } from '@/features/auth/model/selectors'
 import { logoutUser } from '@/features/auth/model/authActions'
 
-const settings = [
-  {
-    label: 'Profile',
-    value: 'profile',
-    icon: <Person />,
-    link: '/users/:userId/profile',
-  },
-  {
-    label: 'Settings',
-    value: 'settings',
-    icon: <Settings />,
-    link: '/settings',
-  },
-]
-
 export const ProfileMenu = () => {
+  const { t } = useTranslation('common')
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(
@@ -41,6 +28,21 @@ export const ProfileMenu = () => {
 
   const currentUser = useSelector(selectCurrentUser)
   const userId = currentUser?.id
+
+  const settings = [
+    {
+      label: t('profileMenu.profile'),
+      value: 'profile',
+      icon: <Person />,
+      link: '/users/:userId/profile',
+    },
+    {
+      label: t('profileMenu.settings'),
+      value: 'settings',
+      icon: <Settings />,
+      link: '/settings',
+    },
+  ]
 
   const handleOpenProfileMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElProfile(event.currentTarget)
@@ -57,7 +59,7 @@ export const ProfileMenu = () => {
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
+      <Tooltip title={t('profileMenu.openSettings')}>
         <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>
           <Avatar
             alt="Remy Sharp"
@@ -111,7 +113,9 @@ export const ProfileMenu = () => {
           onClick={handleLogout}
         >
           <Logout />
-          <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+          <Typography sx={{ textAlign: 'center' }}>
+            {t('profileMenu.logout')}
+          </Typography>
         </MenuItem>
       </Menu>
     </Box>

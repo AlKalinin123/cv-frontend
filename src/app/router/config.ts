@@ -1,4 +1,5 @@
 import { createBrowserRouter, redirect, type UIMatch } from 'react-router'
+import { i18n } from '@/shared/config/i18n'
 import { LoginPage } from '@/pages/login-page'
 import { SettingsPage } from '@/pages/settings-page'
 import { SignupPage } from '@/pages/signup-page'
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
           {
             path: '/users',
             handle: {
-              breadcrumb: 'Users',
+              breadcrumb: 'breadcrumbs.users',
             },
             children: [
               {
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
                     handle: {
                       breadcrumb: (match: UIMatch<User>) => {
                         const user = match.data
-                        return user ? user.email : 'User'
+                        return user ? user.email : i18n.t('common.user')
                       },
                     },
                   },
