@@ -1,0 +1,88 @@
+query GetUsers {
+  users {
+    id
+    created_at
+    email
+    role
+    profile {
+      avatar
+      first_name
+      last_name
+    }
+    cvs {
+      id
+      name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+  }
+}
+
+query GetUserById($userId: ID!) {
+  user(userId: $userId) {
+    id
+    created_at
+    is_verified
+    email
+    role
+    profile {
+      avatar
+      first_name
+      last_name
+    }
+    cvs {
+      id
+      name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(user: $input) {
+    profile {
+      first_name
+      last_name
+    }
+    email
+    role
+  }
+}
+
+mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(user: $input) {
+    id
+    profile {
+      first_name
+      last_name
+    }
+    department {
+      id
+      name
+    }
+    position {
+      id
+      name
+    }
+    role
+  }
+}
+
+mutation DeleteUser($input: ID!) {
+  deleteUser(userId: $input) {
+    affected
+  }
+}

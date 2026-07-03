@@ -1,0 +1,112 @@
+{
+  "appTitle": "CV",
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "unknownError": "Unknown error",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "add": "Add",
+    "update": "Update",
+    "user": "User"
+  },
+  "nav": {
+    "employees": "Employees",
+    "skills": "Skills",
+    "languages": "Languages",
+    "cvs": "CVs"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign up",
+    "welcomeBack": "Welcome back",
+    "loginSubtitle": "Hello again! Sign in to continue",
+    "loginButton": "Log in",
+    "forgotPassword": "Forgot password",
+    "registerNow": "Register now",
+    "signupSubtitle": "Welcome! Sign up to continue",
+    "createAccount": "Create account",
+    "haveAccount": "I have an account",
+    "email": "Email",
+    "password": "Password",
+    "showPassword": "display the password",
+    "hidePassword": "hide the password",
+    "loginFailed": "Login failed",
+    "signupFailed": "Signup failed",
+    "loginRequired": "Please login to access this page"
+  },
+  "profileMenu": {
+    "openSettings": "Open settings",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "settings": {
+    "appearance": "Appearance",
+    "interfaceLanguage": "Interface Language",
+    "cvLanguage": "CV Language",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "deviceSettings": "Device Settings"
+    },
+    "languages": {
+      "en": "English",
+      "ru": "Russian"
+    }
+  },
+  "users": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "department": "Department",
+    "position": "Position"
+  },
+  "skills": {
+    "name": "Name",
+    "type": "Type",
+    "category": "Category",
+    "addSkill": "Add skill",
+    "updateSkill": "Update skill",
+    "removeSkills": "Remove skills",
+    "skill": "Skill",
+    "mastery": "Mastery",
+    "noSkillsFound": "No skills found",
+    "skillAlreadyExists": "Skill already exists",
+    "skillAdded": "Skill added successfully",
+    "skillUpdated": "Skill updated successfully",
+    "skillAddFailed": "Failed to add skill: {{error}}",
+    "skillUpdateFailed": "Failed to update skill: {{error}}"
+  },
+  "profile": {
+    "profile": "Profile",
+    "skills": "Skills",
+    "languages": "Languages",
+    "userNotFound": "User data not found",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "department": "Department",
+    "position": "Position",
+    "memberSince": "A member since {{date}}",
+    "update": "Update",
+    "profileUpdated": "Profile updated successfully",
+    "uploadAvatar": "Upload avatar image",
+    "uploadAvatarHint": "png, jpg or gif no more than 0.5MB"
+  },
+  "breadcrumbs": {
+    "users": "Users"
+  },
+  "validation": {
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "departmentRequired": "Department is required",
+    "positionRequired": "Position is required",
+    "skillRequired": "Skill is required",
+    "masteryRequired": "Mastery is required"
+  },
+  "errors": {
+    "title": "Error",
+    "unknown": "Unknown Error",
+    "stackTrace": "The stack trace is:"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "appTitle": "CV",
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "unknownError": "Неизвестная ошибка",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "add": "Добавить",
+    "update": "Обновить",
+    "user": "Пользователь"
+  },
+  "nav": {
+    "employees": "Сотрудники",
+    "skills": "Навыки",
+    "languages": "Языки",
+    "cvs": "Резюме"
+  },
+  "auth": {
+    "login": "Вход",
+    "signup": "Регистрация",
+    "welcomeBack": "С возвращением",
+    "loginSubtitle": "Снова здравствуйте! Войдите, чтобы продолжить",
+    "loginButton": "Войти",
+    "forgotPassword": "Забыли пароль",
+    "registerNow": "Зарегистрироваться",
+    "signupSubtitle": "Добро пожаловать! Зарегистрируйтесь, чтобы продолжить",
+    "createAccount": "Создать аккаунт",
+    "haveAccount": "У меня есть аккаунт",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "showPassword": "показать пароль",
+    "hidePassword": "скрыть пароль",
+    "loginFailed": "Не удалось войти",
+    "signupFailed": "Не удалось зарегистрироваться",
+    "loginRequired": "Войдите, чтобы получить доступ к этой странице"
+  },
+  "profileMenu": {
+    "openSettings": "Открыть настройки",
+    "profile": "Профиль",
+    "settings": "Настройки",
+    "logout": "Выйти"
+  },
+  "settings": {
+    "appearance": "Оформление",
+    "interfaceLanguage": "Язык интерфейса",
+    "cvLanguage": "Язык резюме",
+    "theme": {
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "deviceSettings": "Как в системе"
+    },
+    "languages": {
+      "en": "Английский",
+      "ru": "Русский"
+    }
+  },
+  "users": {
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Электронная почта",
+    "department": "Отдел",
+    "position": "Должность"
+  },
+  "skills": {
+    "name": "Название",
+    "type": "Тип",
+    "category": "Категория",
+    "addSkill": "Добавить навык",
+    "updateSkill": "Обновить навык",
+    "removeSkills": "Удалить навыки",
+    "skill": "Навык",
+    "mastery": "Уровень владения",
+    "noSkillsFound": "Навыки не найдены",
+    "skillAlreadyExists": "Навык уже существует",
+    "skillAdded": "Навык успешно добавлен",
+    "skillUpdated": "Навык успешно обновлён",
+    "skillAddFailed": "Не удалось добавить навык: {{error}}",
+    "skillUpdateFailed": "Не удалось обновить навык: {{error}}"
+  },
+  "profile": {
+    "profile": "Профиль",
+    "skills": "Навыки",
+    "languages": "Языки",
+    "userNotFound": "Данные пользователя не найдены",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "department": "Отдел",
+    "position": "Должность",
+    "memberSince": "В системе с {{date}}",
+    "update": "Обновить",
+    "profileUpdated": "Профиль успешно обновлён",
+    "uploadAvatar": "Загрузить аватар",
+    "uploadAvatarHint": "png, jpg или gif не более 0.5 МБ"
+  },
+  "breadcrumbs": {
+    "users": "Сотрудники"
+  },
+  "validation": {
+    "firstNameRequired": "Имя обязательно",
+    "lastNameRequired": "Фамилия обязательна",
+    "departmentRequired": "Отдел обязателен",
+    "positionRequired": "Должность обязательна",
+    "skillRequired": "Навык обязателен",
+    "masteryRequired": "Уровень владения обязателен"
+  },
+  "errors": {
+    "title": "Ошибка",
+    "unknown": "Неизвестная ошибка",
+    "stackTrace": "Трассировка стека:"
+  }
+}

@@ -1,0 +1,5 @@
+# Minimal placeholder schema so `npm run codegen` works offline.
+# Replace with SDL from your API (e.g. introspection) or set CODEGEN_SCHEMA_URL to your endpoint.
+type Query {
+  ping: Boolean
+}

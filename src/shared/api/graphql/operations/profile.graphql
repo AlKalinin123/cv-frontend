@@ -1,0 +1,25 @@
+query GetProfile($userId: ID!) {
+  profile(userId: $userId) {
+    id
+    first_name
+    last_name
+    avatar
+    skills {
+      name
+      categoryId
+      mastery
+    }
+    languages {
+      name
+    }
+  }
+}
+
+mutation UpdateProfile($profile: UpdateProfileInput!) {
+  updateProfile(profile: $profile) {
+    id
+    first_name
+    last_name
+    avatar
+  }
+}

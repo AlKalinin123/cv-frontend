@@ -1,0 +1,29 @@
+query GetSkills {
+  skills {
+    id
+    name
+    category {
+      id
+      name
+    }
+  }
+}
+
+query GetSkillCategories {
+  skillCategories {
+    id
+    name
+  }
+}
+
+mutation AddProfileSkill($input: AddProfileSkillInput!) {
+  addProfileSkill(skill: $input) {
+    id
+  }
+}
+
+mutation UpdateProfileSkill($input: UpdateProfileSkillInput!) {
+  updateProfileSkill(skill: $input) {
+    id
+  }
+}

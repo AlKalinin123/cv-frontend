@@ -1,0 +1,71 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Modern JavaScript Rules
+- Use const/let instead of var
+- Prefer arrow functions for callbacks and short functions
+- Use template literals instead of string concatenation
+- Implement destructuring for objects and arrays
+- Use spread operator instead of Object.assign
+- Apply optional chaining (?.) and nullish coalescing (??)
+## Async Programming
+- Use async/await instead of Promise chains
+- Implement proper error handling with try/catch
+- Use Promise.all for parallel async operations
+- Apply AbortController for cancellable requests
+
+## TypeScript Rules
+- Enable strict mode in tsconfig.json
+- Never use 'any' type - use 'unknown' and type guards instead
+- Create union types for component variants instead of boolean props
+- Use const assertions for readonly arrays and objects
+- Implement branded types for IDs and sensitive data
+## Type Organization
+- Define interfaces in separate .types.ts files
+- Use namespace for grouping related types
+- Export types from index.ts barrel files
+- Use generic constraints for reusable utility types
+## Advanced TypeScript Patterns
+- Use conditional types for API response typing
+- Implement mapped types for form validation
+- Use template literal types for CSS-in-JS type safety
+- Apply utility types (Partial, Required, Pick, Omit) appropriately
+
+## Vue Rules
+- Prefer Composition API (script setup) over Options API for new components
+- Co-locate template, logic, and styles in a single file (.vue) when appropriate
+- Split large components into smaller, focused ones
+- Use defineProps and defineEmits for props/events in script setup syntax
+- Leverage defineExpose only when necessary
+- Prefer ref() for primitives and reactive() for objects
+- Avoid unnecessary toRefs() and deep reactivity unless required
+## Reactivity and State Management
+- Use computed for derived state, watch for side effects
+- Avoid overusing watch where computed suffices
+- Use Vue’s provide/inject or Pinia for shared/global state
+- Normalize state before use in components to reduce reactivity complexity
+## Project structure
+- Organize components by feature (feature-based folders, not type-based)
+- Use composables (/composables) for reusable logic
+- Group types in .types.ts files per feature or domain
+- Use index barrel files (index.ts) to simplify imports
+- Keep API logic in separate services under /services or /api
+
+## React Rules
+- Use functional components and TypeScript interfaces.
+- Use declarative JSX.
+- Use function, not const, for components.
+- Use Tailwind CSS for components and styling.
+- Use Feature-Sliced Design(FSD) as an architectural methodology.
+- Implement responsive design with Tailwind CSS.
+- Use mobile-first approach for responsive design.
+- Place static content and interfaces at file end.
+- Use content variables for static content outside render functions.
+- Use Zod for form validation.
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: WebP format, size data, lazy loading.
+- Use Zustand for global state management if needed.
+
